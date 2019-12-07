@@ -25,8 +25,10 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="media\triangles.frag" />
-    <None Include="media\triangles.vert" />
+    <None Include="media\default.frag" />
+    <None Include="media\default.vert" />
+    <None Include="media\toon.frag" />
+    <None Include="media\toon.vert" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

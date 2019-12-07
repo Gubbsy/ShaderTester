@@ -96,7 +96,7 @@ void Mesh::PassToShader()
 	glEnableVertexAttribArray(nPosition);
 }
 
-void Mesh::Draw(GLuint& shaderProgram)
+void Mesh::Draw()
 {
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, texture1);

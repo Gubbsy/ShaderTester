@@ -24,6 +24,7 @@
 
 GLuint shader;
 std::vector<Mesh> meshes;
+glm::vec3 currentLightPos = glm::vec3(100.0f, 75.0f, 75.0f);
 
 void
 init(void)
@@ -105,11 +106,17 @@ init(void)
 	meshes.push_back(*cubeMesh);
 }
 
+void SetLightPos() {
+	glm::vec3 lightPos = currentLightPos;
+	GLuint dLightPosLoc = glGetUniformLocation(shader, "lightPos");
+	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
+}
+
 void ShaderInit() {
 	ShaderInfo  shaders[] =
 	{
-		{ GL_VERTEX_SHADER, "media/triangles.vert" },
-		{ GL_FRAGMENT_SHADER, "media/triangles.frag" },
+		{ GL_VERTEX_SHADER, "media/toon.vert" },
+		{ GL_FRAGMENT_SHADER, "media/toon.frag" },
 		{ GL_NONE, NULL }
 	};
 
@@ -119,6 +126,7 @@ void ShaderInit() {
 	//
 	//Configure Lighting
 	//
+	SetLightPos();
 
 	// ambient light
 	glm::vec4 ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
@@ -127,13 +135,10 @@ void ShaderInit() {
 	glUniform4fv(aLoc, 1, glm::value_ptr(ambient));
 
 	// light object
-	glm::vec3 lightPos = glm::vec3(100.0f, 25.0f, 100.0f);
-	GLuint dLightPosLoc = glGetUniformLocation(shader, "lightPos");
-	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
 
 
 	// diffuse light
-	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.2f, 0.7f);
+	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.5f, 0.7f);
 	GLuint dLightLoc = glGetUniformLocation(shader, "dLight");
 	glUniform3fv(dLightLoc, 1, glm::value_ptr(diffuseLight));
 
@@ -215,9 +220,52 @@ display(GLfloat delta)
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].Draw(shader);
+		meshes[i].Draw();
 	}
 
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+
+	//WASD - Translate
+	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "W pressed" << std::endl;
+		currentLightPos += glm::vec3(0.0f, 10.0f, 0.0f);
+		SetLightPos();
+	}
+
+	else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "A pressed" << std::endl;
+		currentLightPos += glm::vec3(10.0f, 0.0f, 0.0f);
+		SetLightPos();
+	}
+
+	else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "S pressed" << std::endl;
+		currentLightPos += glm::vec3(0.0f, -10.0f, 0.0f);
+		SetLightPos();
+	}
+
+	else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "D pressed" << std::endl;
+		currentLightPos += glm::vec3(-10.0f, 0.0f, 0.0f);
+		SetLightPos();
+	}
+
+	//+/- - Scale
+	else if (key == GLFW_KEY_KP_ADD && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "+ pressed" << std::endl;
+	}
+
+	else if (key == GLFW_KEY_KP_SUBTRACT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		std::cout << "- pressed" << std::endl;
+	}
+
+	//close program
+	if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		exit(0);
+	}
 }
 
 //----------------------------------------------------------------------------
@@ -236,7 +284,9 @@ main(int argc, char** argv)
 
 	ShaderInit();
 	init();
+	glfwSetKeyCallback(window, key_callback);
 	GLfloat timer= 0.0f;
+	
 	while (!glfwWindowShouldClose(window))
 	{
 		// uncomment to draw only wireframe 

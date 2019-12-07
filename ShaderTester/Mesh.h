@@ -31,7 +31,7 @@ private:
 public:
 	Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& tetxurePath);
 	void PassToShader();
-	void Draw(GLuint& shaderProgram);
+	void Draw();
 	void Remove();
 	bool exists(const std::string& name);
 };

@@ -29,13 +29,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="media\triangles.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="media\triangles.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="packages.config" />
+    <None Include="media\default.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="media\default.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="media\toon.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="media\toon.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="media\textures\awesomeface.png">
