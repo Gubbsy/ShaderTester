@@ -32,32 +32,6 @@ init(void)
     // configuring lighting
     //
 
-    // ambient light
-	glm::vec4 ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
-	//adding the Uniform to the shader
-	GLuint aLoc = glGetUniformLocation(shader, "ambient");
-	glUniform4fv(aLoc, 1, glm::value_ptr(ambient));
-
-	// light object
-	glm::vec3 lightPos = glm::vec3(100.0f, 25.0f, 100.0f);
-	GLuint dLightPosLoc = glGetUniformLocation(shader, "lightPos");
-	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
-
-
-	// diffuse light
-	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.2f, 0.7f);
-	GLuint dLightLoc = glGetUniformLocation(shader, "dLight");
-	glUniform3fv(dLightLoc, 1, glm::value_ptr(diffuseLight));
-	
-	// specular light
-	glm::vec3 specularLight = glm::vec3(0.7f);
-	GLfloat shininess = 256; //128 is max value
-	GLuint sLightLoc = glGetUniformLocation(shader, "sLight");
-	GLuint sShineLoc = glGetUniformLocation(shader, "sShine");
-	glUniform3fv(sLightLoc, 1, glm::value_ptr(specularLight));
-	glUniform1fv(sShineLoc, 1, &shininess);
-
-
 	// setting up the cube
 
 	//
@@ -129,12 +103,56 @@ init(void)
 	Mesh* cubeMesh = new Mesh(cubeVertices, cubeIndices, cubeTexture);
 
 	meshes.push_back(*cubeMesh);
-	
+}
+
+void ShaderInit() {
+	ShaderInfo  shaders[] =
+	{
+		{ GL_VERTEX_SHADER, "media/triangles.vert" },
+		{ GL_FRAGMENT_SHADER, "media/triangles.frag" },
+		{ GL_NONE, NULL }
+	};
+
+	shader = LoadShaders(shaders);
+	glUseProgram(shader);
+
+	//
+	//Configure Lighting
+	//
+
+	// ambient light
+	glm::vec4 ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
+	//adding the Uniform to the shader
+	GLuint aLoc = glGetUniformLocation(shader, "ambient");
+	glUniform4fv(aLoc, 1, glm::value_ptr(ambient));
+
+	// light object
+	glm::vec3 lightPos = glm::vec3(100.0f, 25.0f, 100.0f);
+	GLuint dLightPosLoc = glGetUniformLocation(shader, "lightPos");
+	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
+
+
+	// diffuse light
+	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.2f, 0.7f);
+	GLuint dLightLoc = glGetUniformLocation(shader, "dLight");
+	glUniform3fv(dLightLoc, 1, glm::value_ptr(diffuseLight));
+
+	// specular light
+	glm::vec3 specularLight = glm::vec3(0.7f);
+	GLfloat shininess = 256; //128 is max value
+	GLuint sLightLoc = glGetUniformLocation(shader, "sLight");
+	GLuint sShineLoc = glGetUniformLocation(shader, "sShine");
+	glUniform3fv(sLightLoc, 1, glm::value_ptr(specularLight));
+	glUniform1fv(sShineLoc, 1, &shininess);
+
+	//
+	// Configure Model matrix
+	//
 
 	// creating the model matrix
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-	
+
 
 	// creating the view matrix
 	glm::mat4 view = glm::mat4(1.0f);
@@ -153,18 +171,7 @@ init(void)
 	//adding the Uniform to the shader
 	int pLoc = glGetUniformLocation(shader, "p_matrix");
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
-}
 
-void ShaderInit() {
-	ShaderInfo  shaders[] =
-	{
-		{ GL_VERTEX_SHADER, "media/triangles.vert" },
-		{ GL_FRAGMENT_SHADER, "media/triangles.frag" },
-		{ GL_NONE, NULL }
-	};
-
-	shader = LoadShaders(shaders);
-	glUseProgram(shader);
 }
 
 //----------------------------------------------------------------------------
