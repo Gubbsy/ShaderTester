@@ -12,11 +12,12 @@
 #include <glm/ext/matrix_transform.hpp> // GLM: translate, rotate
 #include <glm/ext/matrix_clip_space.hpp> // GLM: perspective and ortho 
 #include <glm/gtc/type_ptr.hpp> // GLM: access to the value_ptr
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+
 #include <iostream>
 #include <vector>
 #include "Mesh.h"
+#include <string>
+
 
 // to use this example you will need to download the header files for GLM put them into a folder which you will reference in
 // properties -> VC++ Directories -> libraries
@@ -59,176 +60,76 @@ init(void)
 
 	// setting up the cube
 
-	GLfloat vertices[] = {
-	-0.5f, -0.5f, -0.5f, //0 b l
-	 0.5f, -0.5f, -0.5f, //1 b r
-	 0.5f,  0.5f, -0.5f, //2 t r
-	 0.5f,  0.5f, -0.5f, //3 t r
-	-0.5f,  0.5f, -0.5f, //4 t l 
-	-0.5f, -0.5f, -0.5f, //5 b l
+	//
 
-	-0.5f, -0.5f,  0.5f, //6 b l
-	 0.5f, -0.5f,  0.5f, //7 b r
-	 0.5f,  0.5f,  0.5f, //8 t r
-	 0.5f,  0.5f,  0.5f, //9 t r 
-	-0.5f,  0.5f,  0.5f, //10 t l
-	-0.5f, -0.5f,  0.5f, //11 b l
-
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-
-	-0.5f, -0.5f, -0.5f, // b l b
-	 0.5f, -0.5f, -0.5f, // b r b
-	 0.5f, -0.5f,  0.5f, // b r f
-	 0.5f, -0.5f,  0.5f, // b r b
-	-0.5f, -0.5f,  0.5f, // b l f
-	-0.5f, -0.5f, -0.5f, // b l b
-
-	-0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
-	};
-
-	GLfloat normals[]{
-	0.0f,  0.0f, -1.0f,
-	0.0f,  0.0f, -1.0f,
-	0.0f,  0.0f, -1.0f,
-	0.0f,  0.0f, -1.0f,
-	0.0f,  0.0f, -1.0f,
-	0.0f,  0.0f, -1.0f,
-
-	0.0f,  0.0f, 1.0f,
-	0.0f,  0.0f, 1.0f,
-	0.0f,  0.0f, 1.0f,
-	0.0f,  0.0f, 1.0f,
-	0.0f,  0.0f, 1.0f,
-	0.0f,  0.0f, 1.0f,
-
-	-1.0f,  0.0f,  0.0f,
-	-1.0f,  0.0f,  0.0f,
-	-1.0f,  0.0f,  0.0f,
-	-1.0f,  0.0f,  0.0f,
-	-1.0f,  0.0f,  0.0f,
-	-1.0f,  0.0f,  0.0f,
+	std::vector<Vertex> cubeVertices;
+	//------------------------------------Position--------------Texture----------normal--------------------colour----------
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f },{ 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f, -0.5f }, { 1.0f,0.0f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f, -0.5f }, { 1.0f, 1.0f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f, -0.5f }, { 1.0f, 1.0f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f, -0.5f }, { 0.0f, 1.0f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f }, { 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
 	
-	1.0f,  0.0f,  0.0f,
-	1.0f,  0.0f,  0.0f,
-	1.0f,  0.0f,  0.0f,
-	1.0f,  0.0f,  0.0f,
-	1.0f,  0.0f,  0.0f,
-	1.0f,  0.0f,  0.0f,
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f,  0.5f }, { 0.0f, 0.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f,  0.5f }, { 1.0f,0.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f,  0.5f }, { 0.0f, 0.0f }, { 0.0f,  0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }));
+	
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f,  0.5 }, { 0.0f, 0.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f, -0.5f }, { 1.0f,0.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f,  0.5f }, { 0.0f, 1.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f,  0.5f }, { 0.0f, 0.0f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }));
+	
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 0.0f, 0.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f, -0.5f }, { 1.0f,0.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f,  0.5f }, { 0.0f, 1.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 0.0f, 0.0f }, { 1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }));
+	
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f, -0.5f }, { 1.0f,0.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f, -0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f,  0.5f }, { 0.0f, 1.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f }, { 0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }));
+	
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f, -0.5f }, { 1.0f,0.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ 0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f,  0.5f }, { 0.0f, 1.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
+	cubeVertices.push_back(Vertex({ -0.5f,  0.5f, -0.5f }, { 0.0f, 0.0f }, { 0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }));
 
-	0.0f, -1.0f,  0.0f,
-	0.0f, -1.0f,  0.0f,
-	0.0f, -1.0f,  0.0f,
-	0.0f, -1.0f,  0.0f,
-	0.0f, -1.0f,  0.0f,
-	0.0f, -1.0f,  0.0f,
+	std::vector<GLuint> cubeIndices = { 0, 1, 2,
+									 3, 4, 5, 
+									 
+									 8, 7, 6, 
+									 11, 10, 9, 
+									 
+									 14, 13, 12, 
+									 17, 16, 15, 
+		
+									 18, 19, 20, 
+									 21, 22, 23, 
+		
+									 26, 25, 24, 
+									 29, 28, 27,
+	
+									 30, 31, 32,
+									 33, 34, 35 };
 
-	0.0f,  1.0f,  0.0f,
-	0.0f,  1.0f,  0.0f,
-	0.0f,  1.0f,  0.0f,
-	0.0f,  1.0f,  0.0f,
-	0.0f,  1.0f,  0.0f,
-	0.0f,  1.0f,  0.0f};
+	std::string cubeTexture = "media/textures/awesomeface.png";
 
-	GLuint indices[][3] = {  // note that we start from 0!
-		{0, 1, 2},  // first Triangle front
-		{3, 4, 5},   // second Triangle
-		
-		{8, 7, 6 },
-		{11, 10, 9 },
-		
-		{14, 13, 12 },
-		{17, 16, 15 },
-		
-		{18, 19, 20 },
-		{21, 22, 23 },
-		
-		{26, 25, 24 },
-		{29, 28, 27 },
-		
-		{30, 31, 32 },  // first Triangle back
-		{33, 34, 35 }   // second Triangle
-	};
+	Mesh* cubeMesh = new Mesh(cubeVertices, cubeIndices, cubeTexture);
 
-	GLfloat  colours[][4] = {
-		{ 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f },
-	    { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f },
-	    
-		{ 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f },
-		
-		{ 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f },
-		{ 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f },
-		
-		{ 1.0f, 0.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 1.0f, 1.0f },
-		{ 1.0f, 0.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 1.0f, 1.0f },
-		
-		{ 1.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f, 1.0f },
-		{ 1.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 0.0f, 1.0f },
-		
-		{ 0.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 1.0f, 1.0f },
-		{ 0.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 1.0f, 1.0f },
-		
-	};
-	GLfloat  texture_coords[] = {
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f,
-
-		0.0f, 0.0f,
-		1.0f,0.0f,
-		1.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f
-	};
+	meshes.push_back(*cubeMesh);
+	
 
 	// creating the model matrix
 	glm::mat4 model = glm::mat4(1.0f);
@@ -306,6 +207,10 @@ display(GLfloat delta)
 	int pLoc = glGetUniformLocation(shader, "p_matrix");
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
+	for (int i = 0; i < meshes.size(); i++) {
+		meshes[i].Draw(shader);
+	}
+
 }
 
 //----------------------------------------------------------------------------
@@ -322,6 +227,7 @@ main(int argc, char** argv)
 	glfwMakeContextCurrent(window);
 	glewInit();
 
+	ShaderInit();
 	init();
 	GLfloat timer= 0.0f;
 	while (!glfwWindowShouldClose(window))

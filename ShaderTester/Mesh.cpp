@@ -1,4 +1,8 @@
 #include "Mesh.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <fstream>
+
 
 Mesh::Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& _texturePath)
 {
@@ -109,6 +113,6 @@ void Mesh::Remove()
 
 bool Mesh::exists(const std::string& name)
 {
-	ifstream f(name.c_str());
+	std::ifstream f(name.c_str());
 	return f.good();
 }

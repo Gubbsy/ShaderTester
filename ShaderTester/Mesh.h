@@ -2,12 +2,10 @@
 
 #include <GL\glew.h>
 #include <vector>
-#include <string>
 #include <filesystem>
 #include <iostream>
-
 #include "Vertex.h"
-#include "stb_image.h"
+
 
 #define BUFFER_OFFSET(offset) ((void*)(offset))
 
@@ -21,7 +19,6 @@ private:
 
 	std::vector<Vertex> vertexes;
 	std::vector<GLuint> indices;
-
 	GLuint VAO;
 	GLuint VBO;
 	GLuint indicesEBO;
