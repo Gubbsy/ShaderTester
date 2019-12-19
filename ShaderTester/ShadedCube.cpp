@@ -8,6 +8,7 @@
 #include "GL/freeglut.h"
 #include "GLFW/glfw3.h"
 #include "LoadShaders.h"
+#include "Util.h";
 #include <glm/glm.hpp> //includes GML
 #include <glm/ext/matrix_transform.hpp> // GLM: translate, rotate
 #include <glm/ext/matrix_clip_space.hpp> // GLM: perspective and ortho 
@@ -17,6 +18,7 @@
 #include <vector>
 #include "Mesh.h"
 #include <string>
+
 
 
 // to use this example you will need to download the header files for GLM put them into a folder which you will reference in
@@ -29,13 +31,6 @@ glm::vec3 currentLightPos = glm::vec3(100.0f, 75.0f, 75.0f);
 void
 init(void)
 {
-	//
-    // configuring lighting
-    //
-
-	// setting up the cube
-
-	//
 
 	std::vector<Vertex> cubeVertices;
 	//------------------------------------Position--------------Texture----------normal--------------------colour----------
@@ -99,7 +94,7 @@ init(void)
 									 30, 31, 32,
 									 33, 34, 35 };
 
-	std::string cubeTexture = "media/textures/awesomeface.png";
+	std::string cubeTexture = "";
 
 	Mesh* cubeMesh = new Mesh(cubeVertices, cubeIndices, cubeTexture);
 
@@ -112,11 +107,11 @@ void SetLightPos() {
 	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
 }
 
-void ShaderInit() {
+void ShaderInit(std::string vertShader, std::string fragShader) {
 	ShaderInfo  shaders[] =
 	{
-		{ GL_VERTEX_SHADER, "media/toon.vert" },
-		{ GL_FRAGMENT_SHADER, "media/toon.frag" },
+		{ GL_VERTEX_SHADER, vertShader.c_str() },
+		{ GL_FRAGMENT_SHADER, fragShader.c_str() },
 		{ GL_NONE, NULL }
 	};
 
@@ -179,6 +174,28 @@ void ShaderInit() {
 
 }
 
+void ShaderSwapper() {
+	bool vertExists = false;
+	bool fragExists = false;
+
+	std::string vertShader;
+	std::string fragShader;
+
+	while (!vertExists) {
+		std::cout << "Please enter a valid path to your vertext shader" << std::endl;
+		std::cin >> vertShader;
+		vertExists = Exists(vertShader);
+	}
+	
+	while (!fragExists) {
+		std::cout << "Please enter a vald path to your fragment shader" << std::endl;
+		std::cin >> fragShader;
+		fragExists = Exists(fragShader);
+	}
+	
+	ShaderInit(vertShader, fragShader);
+}
+
 //----------------------------------------------------------------------------
 //
 // display
@@ -222,7 +239,6 @@ display(GLfloat delta)
 	for (int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw();
 	}
-
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -262,6 +278,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		std::cout << "- pressed" << std::endl;
 	}
 
+	else if (key == GLFW_KEY_Q && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderSwapper();
+	}
+
 	//close program
 	if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		exit(0);
@@ -282,7 +302,7 @@ main(int argc, char** argv)
 	glfwMakeContextCurrent(window);
 	glewInit();
 
-	ShaderInit();
+	ShaderInit("media/default.vert", "media/default.frag");
 	init();
 	glfwSetKeyCallback(window, key_callback);
 	GLfloat timer= 0.0f;

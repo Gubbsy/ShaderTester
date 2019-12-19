@@ -2,6 +2,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <fstream>
+#include "Util.h"
+
 
 
 Mesh::Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& _texturePath)
@@ -58,7 +60,7 @@ void Mesh::ApplyTexture()
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis (it's loaded upside down).
 
 	//Creates texture data from resource
-	if (!exists(texturePath)) {
+	if (!Exists(texturePath)) {
 		texturePath = "./media/textures/DefaultWhite.png";
 	}
 
@@ -109,10 +111,4 @@ void Mesh::Remove()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &indicesEBO);
 	glDeleteVertexArrays(1, &VAO);
-}
-
-bool Mesh::exists(const std::string& name)
-{
-	std::ifstream f(name.c_str());
-	return f.good();
 }
