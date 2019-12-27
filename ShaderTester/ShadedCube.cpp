@@ -25,9 +25,7 @@
 // to use this example you will need to download the header files for GLM put them into a folder which you will reference in
 // properties -> VC++ Directories -> libraries
 
-GLuint shader;
 std::vector<Mesh> meshes;
-glm::vec3 currentLightPos = glm::vec3(100.0f, 75.0f, 75.0f);
 
 void
 init(void)
@@ -132,34 +130,15 @@ display(GLfloat delta)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 
-	//WASD - Translate
-	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "W pressed" << std::endl;
-		currentLightPos += glm::vec3(0.0f, 10.0f, 0.0f);
-	}
 
-	else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "A pressed" << std::endl;
-		currentLightPos += glm::vec3(10.0f, 0.0f, 0.0f);
-	}
-
-	else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "S pressed" << std::endl;
-		currentLightPos += glm::vec3(0.0f, -10.0f, 0.0f);
+		ShaderManager::getInstance()->MoveLight(10.0f);
 	}
 
 	else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "D pressed" << std::endl;
-		currentLightPos += glm::vec3(-10.0f, 0.0f, 0.0f);
-	}
-
-	//+/- - Scale
-	else if (key == GLFW_KEY_KP_ADD && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "+ pressed" << std::endl;
-	}
-
-	else if (key == GLFW_KEY_KP_SUBTRACT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "- pressed" << std::endl;
+		ShaderManager::getInstance()->MoveLight(-10.0f);
 	}
 
 	else if (key == GLFW_KEY_Q && (action == GLFW_PRESS || action == GLFW_REPEAT)) {

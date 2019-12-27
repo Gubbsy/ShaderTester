@@ -17,6 +17,13 @@ void ShaderManager::SetModels(glm::mat4 mv, glm::mat4 projection)
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
+void ShaderManager::MoveLight(float movement)
+{
+	currentLightPos.x = currentLightPos.x + movement;
+	//std::cout << "CurrentLightPoss - " <<  " x: " << currentLightPos.x << " y: " << currentLightPos.y << " z: " << currentLightPos.z << std::endl;
+	SetLightPositon();
+}
+
 void ShaderManager::SetLighting()
 {
 	// ambient light
@@ -87,7 +94,7 @@ void ShaderManager::SwapShader()
 
 ShaderManager::ShaderManager()
 {
-	currentLightPos = glm::vec3(100.0f, 75.0f, 75.0f);
+	currentLightPos = glm::vec3(100.0f, 45.0f, -30.0f);
 	InitialiseShader("media/toon.vert", "media/toon.frag");
 	//InitialiseShader("media/default.vert", "media/default.frag");
 }
