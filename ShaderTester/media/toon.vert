@@ -36,9 +36,13 @@ main()
 	
 	//Normalise
 	L = normalize(L);
-
 	intensity = dot(L,N);
-	fragColour = vColour;
+
+	N = normalize(N);
+
+	vec3 diffuse = max(0.0, dot(N,L)) * dLight;
+
+	fragColour = ambient + vec4(diffuse,1.0) * vColour;
 
 	gl_Position = p_matrix * P;
 	TexCoord = aTexCoord;
