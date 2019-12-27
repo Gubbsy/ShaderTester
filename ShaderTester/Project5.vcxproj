@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ShaderException.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Util.h" />

@@ -54,16 +54,22 @@ void ShaderManager::SetLightPositon()
 
 void ShaderManager::InitialiseShader(std::string vertShader, std::string fragShader)
 {
-	shader = NULL;
-	ShaderInfo  shaders[] =
-	{
-		{ GL_VERTEX_SHADER, vertShader.c_str() },
-		{ GL_FRAGMENT_SHADER, fragShader.c_str() },
-		{ GL_NONE, NULL }
-	};
+	try {
+		ShaderInfo  shaders[] =
+		{
+			{ GL_VERTEX_SHADER, vertShader.c_str() },
+			{ GL_FRAGMENT_SHADER, fragShader.c_str() },
+			{ GL_NONE, NULL }
+		};
 
-	shader = LoadShaders(shaders);
-	glUseProgram(shader);
+		shader = LoadShaders(shaders);
+		glUseProgram(shader);
+	}
+	catch (...) {
+		std::cout << "Shader Could not compile, reverted to default shader" << std::endl;
+		InitialiseShader("media/default.vert", "media/default.frag");
+	}
+
 
 	SetLighting();
 	SetLightPositon();
@@ -95,7 +101,7 @@ void ShaderManager::SwapShader()
 ShaderManager::ShaderManager()
 {
 	currentLightPos = glm::vec3(100.0f, 45.0f, -30.0f);
-	InitialiseShader("media/toon.vert", "media/toon.frag");
+	InitialiseShader("media/default.vert", "media/default.frag");
 	//InitialiseShader("media/default.vert", "media/default.frag");
 }
 

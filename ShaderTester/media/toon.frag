@@ -17,7 +17,5 @@ void main()
 		fColor = fragColour * vec4(0.6,0.6,0.6 , 1);
 	else
 		fColor = fragColour * vec4(0.5,0.5,0.5 , 1);
-
-	//fColor = texture(ourTexture, TexCoord) * colour ;
-	
+		asdaw
 }

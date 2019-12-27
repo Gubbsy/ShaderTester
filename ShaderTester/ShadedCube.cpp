@@ -132,12 +132,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "A pressed" << std::endl;
 		ShaderManager::getInstance()->MoveLight(10.0f);
 	}
 
 	else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		std::cout << "D pressed" << std::endl;
 		ShaderManager::getInstance()->MoveLight(-10.0f);
 	}
 

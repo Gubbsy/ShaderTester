@@ -13,6 +13,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
+#include "ShaderException.h"
 
 	//----------------------------------------------------------------------------
 
@@ -85,6 +86,7 @@ extern "C" {
 				GLchar* log = new GLchar[len + 1];
 				glGetShaderInfoLog(shader, len, &len, log);
 				std::cerr << "Shader compilation failed: " << log << std::endl;
+				throw new ShaderException();
 				delete[] log;
 #endif /* DEBUG */
 
