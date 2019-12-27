@@ -5,7 +5,6 @@
 #include "Util.h"
 
 
-
 Mesh::Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& _texturePath)
 {
 	//Gen VAO and Bind

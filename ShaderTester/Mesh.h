@@ -33,6 +33,5 @@ public:
 	void PassToShader();
 	void Draw();
 	void Remove();
-	bool exists(const std::string& name);
 };
 

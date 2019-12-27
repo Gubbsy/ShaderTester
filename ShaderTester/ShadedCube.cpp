@@ -18,6 +18,7 @@
 #include <vector>
 #include "Mesh.h"
 #include <string>
+#include "ShaderManager.h"
 
 
 
@@ -101,102 +102,6 @@ init(void)
 	meshes.push_back(*cubeMesh);
 }
 
-void SetLightPos() {
-	glm::vec3 lightPos = currentLightPos;
-	GLuint dLightPosLoc = glGetUniformLocation(shader, "lightPos");
-	glUniform3fv(dLightPosLoc, 1, glm::value_ptr(lightPos));
-}
-
-void ShaderInit(std::string vertShader, std::string fragShader) {
-	ShaderInfo  shaders[] =
-	{
-		{ GL_VERTEX_SHADER, vertShader.c_str() },
-		{ GL_FRAGMENT_SHADER, fragShader.c_str() },
-		{ GL_NONE, NULL }
-	};
-
-	shader = LoadShaders(shaders);
-	glUseProgram(shader);
-
-	//
-	//Configure Lighting
-	//
-	SetLightPos();
-
-	// ambient light
-	glm::vec4 ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
-	//adding the Uniform to the shader
-	GLuint aLoc = glGetUniformLocation(shader, "ambient");
-	glUniform4fv(aLoc, 1, glm::value_ptr(ambient));
-
-	// light object
-
-
-	// diffuse light
-	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.5f, 0.7f);
-	GLuint dLightLoc = glGetUniformLocation(shader, "dLight");
-	glUniform3fv(dLightLoc, 1, glm::value_ptr(diffuseLight));
-
-	// specular light
-	glm::vec3 specularLight = glm::vec3(0.7f);
-	GLfloat shininess = 256; //128 is max value
-	GLuint sLightLoc = glGetUniformLocation(shader, "sLight");
-	GLuint sShineLoc = glGetUniformLocation(shader, "sShine");
-	glUniform3fv(sLightLoc, 1, glm::value_ptr(specularLight));
-	glUniform1fv(sShineLoc, 1, &shininess);
-
-	//
-	// Configure Model matrix
-	//
-
-	// creating the model matrix
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-
-
-	// creating the view matrix
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-
-	// creating the projection matrix
-	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3, 0.1f, 20.0f);
-
-	// Adding all matrices up to create combined matrix
-	glm::mat4 mv = view * model;
-
-
-	//adding the Uniform to the shader
-	int mvLoc = glGetUniformLocation(shader, "mv_matrix");
-	glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mv));
-
-	//adding the Uniform to the shader
-	int pLoc = glGetUniformLocation(shader, "p_matrix");
-	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-}
-
-void ShaderSwapper() {
-	bool vertExists = false;
-	bool fragExists = false;
-
-	std::string vertShader;
-	std::string fragShader;
-
-	while (!vertExists) {
-		std::cout << "Please enter a valid path to your vertext shader" << std::endl;
-		std::cin >> vertShader;
-		vertExists = Exists(vertShader);
-	}
-	
-	while (!fragExists) {
-		std::cout << "Please enter a vald path to your fragment shader" << std::endl;
-		std::cin >> fragShader;
-		fragExists = Exists(fragShader);
-	}
-	
-	ShaderInit(vertShader, fragShader);
-}
-
 //----------------------------------------------------------------------------
 //
 // display
@@ -213,6 +118,9 @@ display(GLfloat delta)
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
+
+	ShaderManager* shaderManager = ShaderManager::getInstance();
+
 	// creating the model matrix
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -229,13 +137,7 @@ display(GLfloat delta)
 	// Adding all matrices up to create combined matrix
 	glm::mat4 mv = view * model;
 
-
-	//adding the Uniform to the shader
-	int mvLoc = glGetUniformLocation(shader, "mv_matrix");
-	glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mv));
-	//adding the Uniform to the shader
-	int pLoc = glGetUniformLocation(shader, "p_matrix");
-	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	shaderManager->SetModels(mv, projection);
 
 	for (int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw();
@@ -249,25 +151,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "W pressed" << std::endl;
 		currentLightPos += glm::vec3(0.0f, 10.0f, 0.0f);
-		SetLightPos();
 	}
 
 	else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "A pressed" << std::endl;
 		currentLightPos += glm::vec3(10.0f, 0.0f, 0.0f);
-		SetLightPos();
 	}
 
 	else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "S pressed" << std::endl;
 		currentLightPos += glm::vec3(0.0f, -10.0f, 0.0f);
-		SetLightPos();
 	}
 
 	else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		std::cout << "D pressed" << std::endl;
 		currentLightPos += glm::vec3(-10.0f, 0.0f, 0.0f);
-		SetLightPos();
 	}
 
 	//+/- - Scale
@@ -280,7 +178,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	else if (key == GLFW_KEY_Q && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderSwapper();
+		ShaderManager::getInstance()->SwapShader();
 	}
 
 	//close program
@@ -296,14 +194,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 int
 main(int argc, char** argv)
 {
+	//Don't touch openGL init shizzles
 	glfwInit();
-
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Shaded Cube", NULL, NULL);
-
 	glfwMakeContextCurrent(window);
 	glewInit();
 
-	ShaderInit("media/toon.vert", "media/toon.frag");
 	init();
 	glfwSetKeyCallback(window, key_callback);
 	GLfloat timer= 0.0f;
