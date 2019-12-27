@@ -168,6 +168,7 @@ void ShaderInit(std::string vertShader, std::string fragShader) {
 	//adding the Uniform to the shader
 	int mvLoc = glGetUniformLocation(shader, "mv_matrix");
 	glUniformMatrix4fv(mvLoc, 1, GL_FALSE, glm::value_ptr(mv));
+
 	//adding the Uniform to the shader
 	int pLoc = glGetUniformLocation(shader, "p_matrix");
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -302,7 +303,7 @@ main(int argc, char** argv)
 	glfwMakeContextCurrent(window);
 	glewInit();
 
-	ShaderInit("media/default.vert", "media/default.frag");
+	ShaderInit("media/toon.vert", "media/toon.frag");
 	init();
 	glfwSetKeyCallback(window, key_callback);
 	GLfloat timer= 0.0f;
