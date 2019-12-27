@@ -97,6 +97,27 @@ void Mesh::PassToShader()
 	glEnableVertexAttribArray(nPosition);
 }
 
+glm::mat4 Mesh::GenMVModel(float delta)
+{
+	// creating the model matrix
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+	model = glm::rotate(model, glm::radians(delta), glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+	// creating the view matrix
+	glm::mat4 view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
+	
+	// Adding all matrices up to create combined matrix
+	return view * model;
+}
+
+glm::mat4 Mesh::GenProjModel()
+{
+	return glm::perspective(45.0f, 4.0f / 3, 0.1f, 20.0f);
+}
+
 void Mesh::Draw()
 {
 	glBindVertexArray(VAO);

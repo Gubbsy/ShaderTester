@@ -121,26 +121,11 @@ display(GLfloat delta)
 
 	ShaderManager* shaderManager = ShaderManager::getInstance();
 
-	// creating the model matrix
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-	model = glm::rotate(model, glm::radians(delta), glm::vec3(1.0f, 0.0f, 0.0f));
-
-
-	// creating the view matrix
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-
-	// creating the projection matrix
-	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3, 0.1f, 20.0f);
-
-	// Adding all matrices up to create combined matrix
-	glm::mat4 mv = view * model;
-
-	shaderManager->SetModels(mv, projection);
+	
 
 	for (int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw();
+		shaderManager->SetModels(meshes[i].GenMVModel(delta), meshes[i].GenProjModel());
 	}
 }
 

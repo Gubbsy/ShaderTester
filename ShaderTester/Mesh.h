@@ -6,6 +6,8 @@
 #include <iostream>
 #include "Vertex.h"
 
+#include <glm/ext/matrix_transform.hpp> // GLM: translate, rotate
+#include <glm/ext/matrix_clip_space.hpp>
 
 #define BUFFER_OFFSET(offset) ((void*)(offset))
 
@@ -31,6 +33,8 @@ private:
 public:
 	Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& tetxurePath);
 	void PassToShader();
+	glm::mat4 GenMVModel(float delta);
+	glm::mat4 GenProjModel();
 	void Draw();
 	void Remove();
 };
