@@ -22,7 +22,14 @@ void ShaderManager::SetModels(glm::mat4 mv, glm::mat4 projection)
 void ShaderManager::MoveLight(float movement)
 {
 	currentLightPos.x = currentLightPos.x + movement;
-	//std::cout << "CurrentLightPoss - " <<  " x: " << currentLightPos.x << " y: " << currentLightPos.y << " z: " << currentLightPos.z << std::endl;
+
+	if (currentLightPos.x < -40.0f) {
+		currentLightPos.x = -40.f;
+	}
+
+	else if (currentLightPos.x > 120.0f) {
+		currentLightPos.x = 120.0f;
+	}
 	SetLightPositon();
 }
 
