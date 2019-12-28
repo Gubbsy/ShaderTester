@@ -90,7 +90,7 @@ extern "C" {
 				throw ShaderCompilationEx(log);
 				delete[] log;
 #endif /* DEBUG */
-				glDeleteShader(shader); // Delete uncomiled shader to avoid leak.
+				glDeleteShader(shader); // Delete non-compiled shader to avoid leak.
 				return 0;
 			}
 
