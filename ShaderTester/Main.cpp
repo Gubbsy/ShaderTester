@@ -19,6 +19,7 @@
 #include "Mesh.h"
 #include <string>
 #include "ShaderManager.h"
+#include "ConsolecColours.h"
 
 
 
@@ -30,7 +31,6 @@ std::vector<Mesh> meshes;
 void
 init(void)
 {
-
 	std::vector<Vertex> cubeVertices;
 	//------------------------------------Position--------------Texture----------normal--------------------colour----------
 	cubeVertices.push_back(Vertex({ -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f },{ 0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }));
@@ -156,7 +156,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 int
 main(int argc, char** argv)
 {
-	//Don't touch openGL init shizzles
+	std::cout << CYAN << "================================================================" << std::endl;
+	std::cout << " ____  _               _             _____         _            "<< std::endl;
+	std::cout << "/ ___|| |__   __ _  __| | ___ _ __  |_   _|__  ___| |_ ___ _ __" << std::endl;
+	std::cout << "\\___ \\| ' _\\ / _` |/ _` |/ _ \\ '__|   | |/ _ \\/ __| __/ _ \\ '__|" << std::endl;
+	std::cout << " ___) | | | | (_| | (_| |  __/ |      | |  __/\\__ \\ ||  __/ |   " << std::endl;
+	std::cout << "|____/|_| |_|\\__,_|\\__,_|\\___|_|      |_|\\___||___/\\__\\___|_|" << std::endl;
+	std::cout << "================================================================" << RESET << std::endl;
+
+	std::cout << "This program is used to test the resulting output of fragment and vertices shaders on a given model." << std::endl;
+	std::cout << "Shaders are swapped out in runtime, if the inputed shader cannot be compiled the comilation error is outputed and the default shader is reverted to." << std::endl;
+	std::cout << BOLDMAGENTA << "\nA Vertex shader can have the following properties : \n - layout( location = 0 ) in vec3 vPosition \n - layout( location = 1 ) in vec4 vColour \n - layout( location = 2 ) in vec3 vNormal \n - layout (location = 3) in vec2 aTexCoord \n - uniform vec3 lightPos (Light Postion) \n - uniform vec4 ambient (Ambient Light) \n - uniform vec3 dLight (Diffuse Light) \n - uniform vec3 sLight (Specular Light) \n - uniform float sShine (Specular Shine) \n - uniform mat4 mv_matrix (Model Matrix) \n - uniform mat4 p_matrix (Projection Matrix)";
+	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ A/D - swing light source to and fro" << RESET << std::endl;
+
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Shaded Cube", NULL, NULL);
 	glfwMakeContextCurrent(window);

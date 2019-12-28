@@ -5,6 +5,8 @@
 #include "Util.h"
 #include "ShaderException.h"
 #include "ShaderCompilationEx.h"
+#include "ConsolecColours.h"
+
 
 ShaderManager* ShaderManager::instance = 0;
 
@@ -75,11 +77,11 @@ void ShaderManager::InitialiseShader(std::string vertShader, std::string fragSha
 		glUseProgram(shader);
 	}
 	catch (ShaderCompilationEx& e) {
-		std::cout << e.getMsg() << "Reverted to default shader" << std::endl;
+		std::cout << RED << e.getMsg() << "Reverted to default shader" << RESET << std::endl;
 		InitialiseShader("media/default.vert", "media/default.frag");
 	}
 
-
+	std::cout << BOLDGREEN << "\nShader Compiled!" << RESET << std::endl;
 	SetLighting();
 	SetLightPositon();
 }
@@ -92,14 +94,17 @@ void ShaderManager::SwapShader()
 	std::string vertShader;
 	std::string fragShader;
 
+	std::cout << BOLDGREEN << "\nShader Slection: " << std::endl;
+	std::cout << BOLDGREEN << "---------------- " << RESET << std::endl;
+
 	while (!vertExists) {
-		std::cout << "Please enter a valid path to your vertext shader" << std::endl;
+		std::cout << GREEN<< "Please enter a valid vertext shader file path" << RESET << std::endl;
 		std::cin >> vertShader;
 		vertExists = Exists(vertShader);
 	}
 
 	while (!fragExists) {
-		std::cout << "Please enter a vald path to your fragment shader" << std::endl;
+		std::cout << GREEN << "Please enter a fragment shader file path" << RESET << std::endl;
 		std::cin >> fragShader;
 		fragExists = Exists(fragShader);
 	}
@@ -111,7 +116,6 @@ ShaderManager::ShaderManager()
 {
 	currentLightPos = glm::vec3(100.0f, 45.0f, -30.0f);
 	InitialiseShader("media/default.vert", "media/default.frag");
-	//InitialiseShader("media/default.vert", "media/default.frag");
 }
 
 ShaderManager* ShaderManager::getInstance()

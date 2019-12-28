@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConsolecColours.h" />
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ShaderCompilationEx.h" />
@@ -30,6 +31,8 @@
   <ItemGroup>
     <None Include="media\default.frag" />
     <None Include="media\default.vert" />
+    <None Include="media\reflection.frag" />
+    <None Include="media\reflection.vert" />
     <None Include="media\toon.frag" />
     <None Include="media\toon.vert" />
     <None Include="packages.config" />
@@ -39,8 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LoadShaders.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="ShadedCube.cpp" />
     <ClCompile Include="ShaderCompilationEx.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
   </ItemGroup>
