@@ -14,6 +14,7 @@
 extern "C" {
 #endif // __cplusplus
 #include "ShaderException.h"
+#include "ShaderCompilationEx.h"
 
 	//----------------------------------------------------------------------------
 
@@ -85,8 +86,8 @@ extern "C" {
 
 				GLchar* log = new GLchar[len + 1];
 				glGetShaderInfoLog(shader, len, &len, log);
-				std::cerr << "Shader compilation failed: " << log << std::endl;
-				throw ShaderException();
+				std::cerr << "Shader compilation failed: " << std::endl;
+				throw ShaderCompilationEx(log);
 				delete[] log;
 #endif /* DEBUG */
 

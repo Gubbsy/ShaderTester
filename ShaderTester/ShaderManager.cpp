@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Util.h"
 #include "ShaderException.h"
+#include "ShaderCompilationEx.h"
 
 ShaderManager* ShaderManager::instance = 0;
 
@@ -66,8 +67,8 @@ void ShaderManager::InitialiseShader(std::string vertShader, std::string fragSha
 		shader = LoadShaders(shaders);
 		glUseProgram(shader);
 	}
-	catch (ShaderException e) {
-		std::cout << e.what() << " Reverted to default shader" << std::endl;
+	catch (ShaderCompilationEx& e) {
+		std::cout << e.getMsg() << "Reverted to default shader" << std::endl;
 		InitialiseShader("media/default.vert", "media/default.frag");
 	}
 
