@@ -3,6 +3,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <iostream>
 #include "Util.h"
+#include "ShaderException.h"
 
 ShaderManager* ShaderManager::instance = 0;
 
@@ -65,8 +66,8 @@ void ShaderManager::InitialiseShader(std::string vertShader, std::string fragSha
 		shader = LoadShaders(shaders);
 		glUseProgram(shader);
 	}
-	catch (...) {
-		std::cout << "Shader Could not compile, reverted to default shader" << std::endl;
+	catch (ShaderException e) {
+		std::cout << e.what() << " Reverted to default shader" << std::endl;
 		InitialiseShader("media/default.vert", "media/default.frag");
 	}
 
