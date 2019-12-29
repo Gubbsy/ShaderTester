@@ -47,7 +47,7 @@ display(GLfloat delta)
 {
 	static const float black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	glClearBufferfv(GL_COLOR, 0, black);
+	//glClearBufferfv(GL_COLOR, 0, black);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	
@@ -100,6 +100,32 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	else if (key == GLFW_KEY_M && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		TakeUserInput();
+	}
+
+	//+/- - Scale
+	else if (key == GLFW_KEY_KP_ADD && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Scale(glm::vec3(0.3f, 0.3f, 0.3f));
+	}
+
+	else if (key == GLFW_KEY_KP_SUBTRACT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Scale(glm::vec3(-0.3f, -0.3f, -0.3f));
+	}
+
+	//Arrow keys - Rotate
+	else if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Rotate(glm::vec3(0.0f, 10.0f, 0.0f));
+	}
+
+	else if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Rotate(glm::vec3(0.0f, -10.0f, 0.0f));
+	}
+
+	else if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Rotate(glm::vec3(-10.0f, 0.0f, 0.0f));
+	}
+
+	else if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		model->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 	}
 
 	//close program
