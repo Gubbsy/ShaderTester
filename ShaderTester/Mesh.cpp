@@ -104,8 +104,7 @@ void Mesh::ApplyTexture() {
 void Mesh::Draw() {
 	//Bind current VAO, apply any textures, draw
 	// Query - In the shader program, get me the Uniform location and set it to 0, then feed it into shader
-	ShaderManager* sm = ShaderManager::getInstance();
-	shader = sm->getCurrentShader();
+	shader = ShaderManager::getInstance()->getCurrentShader();
 	glUniform1i(glGetUniformLocation(shader, "texture2"), 0);
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, texture1);

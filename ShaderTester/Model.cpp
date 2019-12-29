@@ -47,7 +47,7 @@ void Model::AddObject(Object object)
 	objects.push_back(object);
 }
 
-void Model::Draw(ShaderManager* shaderManger)
+void Model::Draw()
 {
 	// creating the view matrix
 	glm::mat4 view = glm::mat4(1.0f);
@@ -59,12 +59,12 @@ void Model::Draw(ShaderManager* shaderManger)
 	// Adding all matrices up to create combined matrix
 	glm::mat4 mv = view * modelMat;
 
-	shaderManger->SetModels(mv, p);
+	ShaderManager::getInstance()->SetModels(mv, p);
 	
 
 	// for every object in model call draw method
 	for (int i = 0; i < objects.size(); i++) {
-		objects[i].Draw(shaderManger->getCurrentShader());
+		objects[i].Draw(ShaderManager::getInstance()->getCurrentShader());
 	}
 }
 

@@ -21,7 +21,7 @@ public:
 	void Rotate(vec3 _rotateBY);
 	void Scale(vec3 _scaleBy);
 	void AddObject(Object object);
-	void Draw(ShaderManager* shader);
+	void Draw();
 	void Delete();
 };
 
