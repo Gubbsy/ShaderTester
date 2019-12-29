@@ -75,13 +75,14 @@ void ShaderManager::InitialiseShader(std::string vertShader, std::string fragSha
 
 		shader = LoadShaders(shaders);
 		glUseProgram(shader);
+
+		std::cout << BOLDGREEN << "\nShader Compiled!" << RESET << std::endl;
 	}
 	catch (ShaderCompilationEx& e) {
 		std::cout << RED << e.getMsg() << "Reverted to default shader" << RESET << std::endl;
 		InitialiseShader("media/default.vert", "media/default.frag");
 	}
 
-	std::cout << BOLDGREEN << "\nShader Compiled!" << RESET << std::endl;
 	SetLighting();
 	SetLightPositon();
 }
