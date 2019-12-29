@@ -1,11 +1,16 @@
 #include "Mesh.h"
+
+#include "ObjReader.h"
+#include <filesystem>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include <fstream>
-#include "Util.h"
+#include <iostream>
 
 
-Mesh::Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& _texturePath)
+using namespace std;
+
+void Mesh::Init(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, Material& _material, string& _folderTree)
 {
 	//Gen VAO and Bind
 	glGenVertexArrays(1, &VAO);
@@ -14,71 +19,13 @@ Mesh::Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::s
 	//Construct mesh data
 	vertexes = _vertexes;
 	indices = _indices;
-	texturePath = _texturePath;
+	material = _material;
+	folderTree = _folderTree;
 
+	ApplyTexture();
 	BindVertices();
 	BindIndices();
 	PassToShader();
-	ApplyTexture();
-}
-
-void Mesh::BindIndices()
-{
-	glGenBuffers(1, &indicesEBO);
-	// Binding Contains the combination that from triangles (using the vertexes) [EBO] (for re-using points bassicaly)
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesEBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
-}
-
-void Mesh::BindVertices()
-{
-	// Bining All the vertixes that triangles can be made from (VBO)
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(Vertex), &vertexes[0], GL_STATIC_DRAW);
-}
-
-void Mesh::ApplyTexture()
-{
-	//Generate Texture
-	glGenTextures(1, &texture1);
-	//Bind generated textures as type
-	glBindTexture(GL_TEXTURE_2D, texture1);
-
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	// load image, create texture and generate mipmaps
-	//Create 'Space'
-	GLint width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis (it's loaded upside down).
-
-	//Creates texture data from resource
-	if (!Exists(texturePath)) {
-		texturePath = "./media/textures/DefaultWhite.png";
-	}
-
-	unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		//Creates texture
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		//Generates minimap for texture
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-
-	// Query - In the shader program, get me the Uniform location and set it to 0, then feed it into shader
-	glUniform1i(glGetUniformLocation(shader, "texture1"), 0);
 }
 
 void Mesh::PassToShader()
@@ -97,38 +44,88 @@ void Mesh::PassToShader()
 	glEnableVertexAttribArray(nPosition);
 }
 
-glm::mat4 Mesh::GenMVModel(float delta)
-{
-	// creating the model matrix
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-	model = glm::rotate(model, glm::radians(delta), glm::vec3(1.0f, 0.0f, 0.0f));
+void Mesh::BindVertices() {
+	// Bining All the vertixes that triangles can be made from (VBO)
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(Vertex), &vertexes[0], GL_STATIC_DRAW);
+}
+
+void Mesh::BindIndices() {
+	glGenBuffers(1, &indicesEBO);
+	// Binding Contains the combination that from triangles (using the vertexes) [EBO] (for re-using points bassicaly)
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+}
 
 
-	// creating the view matrix
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
+void Mesh::ApplyTexture() {
+	//Generate Texture
+	glGenTextures(1, &texture1);
+	//Bind generated textures as type
+	glBindTexture(GL_TEXTURE_2D, texture1);
+
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// load image, create texture and generate mipmaps
+	//Create 'Space'
+	GLint width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis (it's loaded upside down).
 	
-	// Adding all matrices up to create combined matrix
-	return view * model;
+	texturePath = folderTree + material.GetMapD();
+	
+	//Creates texture data from resource
+	if (!exists(texturePath)) {
+		texturePath = "./media/textures/DefaultWhite.png";
+	}
+
+	unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		//Creates texture
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		//Generates minimap for texture
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+
 }
 
-glm::mat4 Mesh::GenProjModel()
-{
-	return glm::perspective(45.0f, 4.0f / 3, 0.1f, 20.0f);
-}
-
-void Mesh::Draw()
-{
+void Mesh::Draw() {
+	//Bind current VAO, apply any textures, draw
+	// Query - In the shader program, get me the Uniform location and set it to 0, then feed it into shader
+	ShaderManager* sm = ShaderManager::getInstance();
+	shader = sm->getCurrentShader();
+	glUniform1i(glGetUniformLocation(shader, "texture2"), 0);
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Mesh::Remove()
+void Mesh::Delete()
 {
 	//Unbind buffers to delete
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &indicesEBO);
 	glDeleteVertexArrays(1, &VAO);
 }
+
+//Check if file exists
+bool Mesh::exists(const std::string& name)
+{
+	ifstream f(name.c_str());
+	return f.good();
+}
+
+
+

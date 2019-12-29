@@ -25,5 +25,6 @@ public:
 	static ShaderManager* getInstance();
 	void SetModels(glm::mat4 mv, glm::mat4 projection);
 	void MoveLight(float movement);
+	GLuint& getCurrentShader();
 };
 

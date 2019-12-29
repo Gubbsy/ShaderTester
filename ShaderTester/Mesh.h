@@ -1,15 +1,13 @@
 #pragma once
-
 #include <GL\glew.h>
 #include <vector>
-#include <filesystem>
-#include <iostream>
+#include "Material.h"
 #include "Vertex.h"
-
-#include <glm/ext/matrix_transform.hpp> // GLM: translate, rotate
-#include <glm/ext/matrix_clip_space.hpp>
+#include <string>
+#include <string>
 
 #define BUFFER_OFFSET(offset) ((void*)(offset))
+
 
 class Mesh
 {
@@ -21,21 +19,24 @@ private:
 
 	std::vector<Vertex> vertexes;
 	std::vector<GLuint> indices;
+
 	GLuint VAO;
 	GLuint VBO;
 	GLuint indicesEBO;
+
+	Material material;
+	std::string folderTree;
 	std::string texturePath;
 
 	void BindIndices();
 	void BindVertices();
 	void ApplyTexture();
 
-public:
-	Mesh(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, std::string& tetxurePath);
+public: 
+	void Init(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, Material& _material, string& _fileTree);
 	void PassToShader();
-	glm::mat4 GenMVModel(float delta);
-	glm::mat4 GenProjModel();
 	void Draw();
-	void Remove();
+	void Delete();
+	bool exists(const std::string& name);
 };
 

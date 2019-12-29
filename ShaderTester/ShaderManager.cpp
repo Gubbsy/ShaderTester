@@ -35,6 +35,11 @@ void ShaderManager::MoveLight(float movement)
 	SetLightPositon();
 }
 
+GLuint& ShaderManager::getCurrentShader()
+{
+	return shader;
+}
+
 void ShaderManager::SetLighting()
 {
 	// ambient light

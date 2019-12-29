@@ -17,16 +17,20 @@
 #include <iostream>
 #include <vector>
 #include "Mesh.h"
+#include "Model.h"
 #include <string>
 #include "ShaderManager.h"
 #include "ConsolecColours.h"
+#include "ObjReader.h"
+
+
 
 
 
 // to use this example you will need to download the header files for GLM put them into a folder which you will reference in
 // properties -> VC++ Directories -> libraries
 
-std::vector<Mesh> meshes;
+std::vector<Model> mods;
 
 void
 init(void)
@@ -95,9 +99,9 @@ init(void)
 
 	std::string cubeTexture = "";
 
-	Mesh* cubeMesh = new Mesh(cubeVertices, cubeIndices, cubeTexture);
+	//Mesh* cubeMesh = new Mesh(cubeVertices, cubeIndices, cubeTexture);
 
-	meshes.push_back(*cubeMesh);
+	//meshes.push_back(*cubeMesh);
 }
 
 //----------------------------------------------------------------------------
@@ -111,19 +115,40 @@ display(GLfloat delta)
 
 	glClearBufferfv(GL_COLOR, 0, black);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
 
-	// bind textures on corresponding texture units
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
-
+	glEnable(GL_DEPTH_TEST);
+	
 	ShaderManager* shaderManager = ShaderManager::getInstance();
 
-	
+	for (int i = 0; i < mods.size(); i++) {
+		mods[i].Draw(shaderManager);
+	}
+}
 
-	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].Draw();
-		shaderManager->SetModels(meshes[i].GenMVModel(delta), meshes[i].GenProjModel());
+void TakeUserInput() {
+
+	string modelPath;
+	cout << "Welcome! Please enter the relative file path to your model. \n";
+	cin >> modelPath;
+
+	ObjReader* objReader = new ObjReader();
+	Model* mod = nullptr;
+
+	string extension = modelPath.substr((modelPath.length()) - 3);
+
+	if (extension == "obj") {
+		mod = objReader->ReadFile(modelPath);
+	}
+	else {
+		std::cout << "Unsupprted file" << endl;
+	}
+
+	if (mod != nullptr) {
+		mods.push_back(*mod);
 	}
 }
 
@@ -141,6 +166,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	else if (key == GLFW_KEY_Q && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		ShaderManager::getInstance()->SwapShader();
+	}
+
+	else if (key == GLFW_KEY_M && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		TakeUserInput();
 	}
 
 	//close program
@@ -166,7 +195,7 @@ main(int argc, char** argv)
 
 	std::cout << "This program is used to test the resulting output of fragment and vertices shaders on a given model." << std::endl;
 	std::cout << "Shaders are swapped out in runtime, if the inputed shader cannot be compiled the comilation error is outputed and the default shader is reverted to." << std::endl;
-	std::cout << BOLDMAGENTA << "\nA Vertex shader can have the following properties : \n - layout( location = 0 ) in vec3 vPosition \n - layout( location = 1 ) in vec4 vColour \n - layout( location = 2 ) in vec3 vNormal \n - layout (location = 3) in vec2 aTexCoord \n - uniform vec3 lightPos (Light Postion) \n - uniform vec4 ambient (Ambient Light) \n - uniform vec3 dLight (Diffuse Light) \n - uniform vec3 sLight (Specular Light) \n - uniform float sShine (Specular Shine) \n - uniform mat4 mv_matrix (Model Matrix) \n - uniform mat4 p_matrix (Projection Matrix)";
+	std::cout << BOLDMAGENTA << "\nA Vertex shader can have the following properties : \n - layout( location = 0 ) in vec3 vPosition \n - layout( location = 1 ) in vec4 vColour \n - layout( location = 2 ) in vec2 aTexCoord \n - layout (location = 3) in vec3 vNormal \n - uniform vec3 lightPos (Light Postion) \n - uniform vec4 ambient (Ambient Light) \n - uniform vec3 dLight (Diffuse Light) \n - uniform vec3 sLight (Specular Light) \n - uniform float sShine (Specular Shine) \n - uniform mat4 mv_matrix (Model Matrix) \n - uniform mat4 p_matrix (Projection Matrix)";
 	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ A/D - swing light source to and fro" << RESET << std::endl;
 
 	glfwInit();
@@ -177,6 +206,8 @@ main(int argc, char** argv)
 	init();
 	glfwSetKeyCallback(window, key_callback);
 	GLfloat timer= 0.0f;
+
+	
 	
 	while (!glfwWindowShouldClose(window))
 	{
