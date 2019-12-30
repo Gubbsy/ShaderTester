@@ -1,4 +1,6 @@
 #include "ObjReader.h"
+#include "ConsolecColours.h"
+#include "ObjLoaderEx.h"
 
 Model* ObjReader::ReadFile(string _file) {
 	
@@ -145,14 +147,10 @@ Model* ObjReader::ReadFile(string _file) {
 			delete(tempMesh);
 			delete(tempObject);
 		}
-		else 
-		{
-			cout << "Unable to open obj file: " << file << endl;
-			model = nullptr;
-		}
 	}
 	catch (...) {
-		cerr << "Unable to read obj file: " << file << ". The file you entered may be corrupted" << endl;
+		throw ObjLoaderEx(file.c_str());
+		model = nullptr;
 	}
 
 	return model;

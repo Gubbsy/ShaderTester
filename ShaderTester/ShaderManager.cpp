@@ -25,13 +25,13 @@ void ShaderManager::MoveLight(float movement)
 {
 	currentLightPos.x = currentLightPos.x + movement;
 
-	if (currentLightPos.x < -40.0f) {
-		currentLightPos.x = -40.f;
-	}
+	//if (currentLightPos.x < -40.0f) {
+	//	currentLightPos.x = -40.f;
+	//}
 
-	else if (currentLightPos.x > 120.0f) {
-		currentLightPos.x = 120.0f;
-	}
+	//else if (currentLightPos.x > 120.0f) {
+	//	currentLightPos.x = 120.0f;
+	//}
 	SetLightPositon();
 }
 

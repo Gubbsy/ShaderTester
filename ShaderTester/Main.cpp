@@ -22,6 +22,7 @@
 #include "ShaderManager.h"
 #include "ConsolecColours.h"
 #include "ObjReader.h"
+#include "ObjLoaderEx.h"
 
 
 // to use this example you will need to download the header files for GLM put them into a folder which you will reference in
@@ -49,7 +50,10 @@ display(GLfloat delta)
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	
-	model->Draw();
+	if (model != NULL) {
+		model->Draw();
+	}
+
 }
 
 void RenderModel(string path) {
@@ -57,7 +61,12 @@ void RenderModel(string path) {
 	ObjReader* objReader = new ObjReader();
 	Model* mod = nullptr;
 
-	mod = objReader->ReadFile(path);
+	try {
+		mod = objReader->ReadFile(path);
+	}
+	catch (ObjLoaderEx e) {
+		cerr << RED << "Unable to read obj file: " << e.getFile() << ". The file you entered may be corrupted" << RESET << endl;
+	}
 
 	if (model != nullptr) {
 		model->Delete();
@@ -73,11 +82,11 @@ void TakeUserInput() {
 
 	string extension = modelPath.substr((modelPath.length()) - 3);
 
-	if (extension == "obj") {
+	if (extension == "obj" && Exists(modelPath)) {
 		RenderModel(modelPath);
 	}
 	else {
-		std::cout << "Unsupprted file" << endl;
+		std::cout << RED << "File is unsupprted is unsupported or cannot be found" << RESET << endl;
 	}
 }
 
