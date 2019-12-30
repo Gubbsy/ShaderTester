@@ -35,26 +35,42 @@ void ShaderManager::MoveLight(float movement)
 	SetLightPositon();
 }
 
+void ShaderManager::ChangeAmbient(glm::vec4 amount)
+{
+	ambient += amount;
+	SetLighting();
+}
+
+void ShaderManager::ChangeDiffuse(glm::vec3 amount)
+{
+	diffuseLight += amount;
+	SetLighting();
+}
+
+void ShaderManager::ChangeSpecular(glm::vec3 amount)
+{
+	specularLight += amount;
+	SetLighting();
+}
+
 GLuint& ShaderManager::getCurrentShader()
 {
 	return shader;
+	SetLighting();
 }
 
 void ShaderManager::SetLighting()
 {
-	// ambient light
-	glm::vec4 ambient = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f);
 	//adding the Uniform to the shader
 	GLuint aLoc = glGetUniformLocation(shader, "ambient");
 	glUniform4fv(aLoc, 1, glm::value_ptr(ambient));
 
 	// diffuse light
-	glm::vec3 diffuseLight = glm::vec3(0.5f, 0.5f, 0.7f);
 	GLuint dLightLoc = glGetUniformLocation(shader, "dLight");
 	glUniform3fv(dLightLoc, 1, glm::value_ptr(diffuseLight));
 
 	// specular light
-	glm::vec3 specularLight = glm::vec3(0.7f);
+	
 	GLfloat shininess = 256; //128 is max value
 	GLuint sLightLoc = glGetUniformLocation(shader, "sLight");
 	GLuint sShineLoc = glGetUniformLocation(shader, "sShine");
@@ -121,6 +137,10 @@ void ShaderManager::SwapShader()
 ShaderManager::ShaderManager()
 {
 	currentLightPos = glm::vec3(100.0f, 45.0f, -30.0f);
+	ambient = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
+	diffuseLight = glm::vec3(0.9f, 0.9f, 0.9f);
+	specularLight = glm::vec3(0.7f);
+
 	InitialiseShader("media/default.vert", "media/default.frag");
 }
 

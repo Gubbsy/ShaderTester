@@ -27,7 +27,9 @@ main()
 	// view-space coordinate
     vec4 P = mv_matrix * vec4(vPosition,1.0);
 	// calculate normal in view-space
-	vec3 N = mat3(mv_matrix) * vNormal;
+	//vec3 N = mat3(mv_matrix) * vNormal;
+
+	vec3 N = mat3(transpose(inverse(mv_matrix))) * vNormal;  
 	// calcuate light vector in view space
 	vec3 L = lightPos - P.xyz;
 	// calc the view vector

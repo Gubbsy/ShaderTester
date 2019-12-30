@@ -45,9 +45,7 @@ init(void)
 void
 display(GLfloat delta)
 {
-	static const float black[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-	//glClearBufferfv(GL_COLOR, 0, black);
+	glClearColor(0.24, 0.24, 0.23, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	
@@ -126,6 +124,34 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	else if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		model->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
+	}
+
+	//Alter Lighting Values
+	//Ambient
+	else if (key == GLFW_KEY_Z && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeAmbient(glm::vec4(0.1f, 0.1f, 0.1f, 0.0f));
+	}
+
+	else if (key == GLFW_KEY_X && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeAmbient(glm::vec4(-0.1f, -0.1f, -0.1f, 0.0f));
+	}
+
+	//Diffuse
+	else if (key == GLFW_KEY_C && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeDiffuse(glm::vec3(0.1f));
+	}
+
+	else if (key == GLFW_KEY_V && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeDiffuse(glm::vec3(-0.1f));
+	}
+
+	//Specular
+	else if (key == GLFW_KEY_B && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeSpecular(glm::vec3(0.1f));
+	}
+
+	else if (key == GLFW_KEY_N && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->ChangeSpecular(glm::vec3(-0.1f));
 	}
 
 	//close program
