@@ -15,6 +15,10 @@ private:
 	GLuint shader;
 	glm::vec3 currentLightPos; 
 
+	glm::vec4 ambient;
+	glm::vec3 diffuseLight;
+	glm::vec3 specularLight;
+
 	ShaderManager();
 	void SetLighting();
 	void SetLightPositon();
@@ -25,5 +29,9 @@ public:
 	static ShaderManager* getInstance();
 	void SetModels(glm::mat4 mv, glm::mat4 projection);
 	void MoveLight(float movement);
+	void ChangeAmbient(glm::vec4 amount);
+	void ChangeDiffuse(glm::vec3 amount);
+	void ChangeSpecular(glm::vec3 amount);
+	GLuint& getCurrentShader();
 };
 

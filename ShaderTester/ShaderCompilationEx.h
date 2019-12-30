@@ -7,7 +7,7 @@ class ShaderCompilationEx : public std::exception
 private:
 	const GLchar* msg;
 public:
-	ShaderCompilationEx(const GLchar* _log);
+	ShaderCompilationEx(const char* _log);
 	const GLchar * getMsg();
 };
 

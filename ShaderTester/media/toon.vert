@@ -3,8 +3,8 @@
 
 layout( location = 0 ) in vec3 vPosition;
 layout( location = 1 ) in vec4 vColour;
-layout( location = 2 ) in vec3 vNormal;
-layout (location = 3) in vec2 aTexCoord;
+layout( location = 2 ) in vec2 aTexCoord;
+layout( location = 3 ) in vec3 vNormal;
 
 uniform vec3 lightPos;
 
@@ -30,7 +30,8 @@ main()
 	// view-space coordinate
     vec4 P = mv_matrix * vec4(vPosition,1.0);
 	// calculate normal in view-space
-	vec3 N = mat3(mv_matrix) * vNormal;
+	//vec3 N = mat3(mv_matrix) * vNormal;
+	vec3 N = mat3(transpose(inverse(mv_matrix))) * vNormal;  
 	// calcuate light vector in view space
 	vec3 L = lightPos - P.xyz;
 	
