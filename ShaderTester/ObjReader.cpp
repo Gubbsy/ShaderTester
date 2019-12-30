@@ -26,7 +26,7 @@ Model* ObjReader::ReadFile(string _file) {
 		//Open file
 		if (myFile.is_open()) {
 
-			cout << file <<" Opened File" << endl;
+			cout << "\n" << file <<" Opened File" << endl;
 			while (getline(myFile, line)) {
 				
 				vector<string> token;

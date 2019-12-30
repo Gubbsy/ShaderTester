@@ -136,7 +136,7 @@ void ShaderManager::SwapShader()
 
 ShaderManager::ShaderManager()
 {
-	currentLightPos = glm::vec3(100.0f, 45.0f, -30.0f);
+	currentLightPos = glm::vec3(100.0f, 1.25f, 1.25f);
 	ambient = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
 	diffuseLight = glm::vec3(0.9f, 0.9f, 0.9f);
 	specularLight = glm::vec3(0.7f);
