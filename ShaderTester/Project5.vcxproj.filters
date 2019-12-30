@@ -69,10 +69,16 @@
     <None Include="media\toon.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="media\reflection.frag">
+    <None Include="media\specular.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="media\reflection.vert">
+    <None Include="media\specular.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="media\trippy.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="media\trippy.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

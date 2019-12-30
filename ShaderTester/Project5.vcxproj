@@ -36,10 +36,12 @@
   <ItemGroup>
     <None Include="media\default.frag" />
     <None Include="media\default.vert" />
-    <None Include="media\reflection.frag" />
-    <None Include="media\reflection.vert" />
+    <None Include="media\specular.frag" />
+    <None Include="media\specular.vert" />
     <None Include="media\toon.frag" />
     <None Include="media\toon.vert" />
+    <None Include="media\trippy.frag" />
+    <None Include="media\trippy.vert" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
