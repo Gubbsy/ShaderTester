@@ -6,7 +6,9 @@ The position, ambient, specular and diffuse values for model lighting can be adj
 
 This program was created as a result of personal experiences troubleshooting of custom shaders, due to the inability to debug shader files directly and the limited feedback given from errors. It also came about due to the necessity to observe shader behaviour under variable conditions such as model position and lighting values.
 
-There are multiple online WebGL shader editor (i.e. [Shader Frog](https://shaderfrog.com/app/editor "Shader Frog"), [The Book of Shaders](https://thebookofshaders.com/edit.php "The Boo of Shaders"), [Shader Toy](https://www.shadertoy.com "Shader Toy") ), however non of them provide the ability to load custom models and dynamically change light variables external to the shader program. 
+There are multiple online WebGL shader editor (i.e. [Shader Frog](https://shaderfrog.com/app/editor "Shader Frog"), [The Book of Shaders](https://thebookofshaders.com/edit.php "The Boo of Shaders"), [Shader Toy](https://www.shadertoy.com "Shader Toy") ).However, non of them provide the ability to load custom models and dynamically change light variables external to the shader program, with the exception of *Shader Frog*, where the light position can be changed.
+
+The project builds upon a previous *Model Loader*, with improvement made to error handling.
 
 ## Packages, Dependencies and Versions
 OpenGL Version 4.6.0  
@@ -134,8 +136,8 @@ This model assigned to the main **Model** variable within the program, who's **D
 * Thrown when there is an issue loading .obj file.
 
 ## Evaluations and Considerations
-Although the solution provided is successful in reading in the provided models. There are some clear improvements that could be made to the code base to increase efficiency, speed and extendibility.  
+Although the solution provided is successful in reading and swapping of models and shaders. There are some clear improvements that could be made to the code base to increase efficiency, speed and extendibility.  
 They are as follows:
-* Implement Reader class inheritance from a class that defines share functionality required across all readers.
-* Implement a Utility class that can be instantiated to perform common tasks such as string and file manipulations/checks.
-* Implement more data reference passing, reducing the number of variable instantiation and memory footprint.
+* Give more accurate control over the light position manipulation, the current system is restrictive.
+* Abstract user input and controls into a class to reduce the clutter of he *Main* application entry point.
+* Ensure that manual garbage collection and clean-ups are run when objects are finished with.

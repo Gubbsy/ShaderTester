@@ -100,6 +100,10 @@ void ShaderManager::SetLightPositon()
 
 void ShaderManager::InitialiseShader(std::string vertShader, std::string fragShader)
 {
+	if (shader != NULL) {
+		glDeleteShader(shader);
+	}
+
 	try {
 		ShaderInfo  shaders[] =
 		{

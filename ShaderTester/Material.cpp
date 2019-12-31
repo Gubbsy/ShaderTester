@@ -32,9 +32,14 @@ void Material::SetMapD(string _mapD) {
 	mapD = _mapD;
 }
 
-string Material::GetMapD()
+string& Material::GetMapD()
 {
 	return mapD;
+}
+
+string& Material::GetMapKD()
+{
+	return mapKD;
 }
 
 vec3 Material::GetDiffuseCol()

@@ -78,7 +78,7 @@ void Mesh::ApplyTexture() {
 	GLint width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis (it's loaded upside down).
 	
-	texturePath = folderTree + material.GetMapD();
+	texturePath = folderTree + material.GetMapKD();
 	
 	//Creates texture data from resource
 	if (!exists(texturePath)) {
@@ -105,7 +105,7 @@ void Mesh::Draw() {
 	//Bind current VAO, apply any textures, draw
 	// Query - In the shader program, get me the Uniform location and set it to 0, then feed it into shader
 	shader = ShaderManager::getInstance()->getCurrentShader();
-	glUniform1i(glGetUniformLocation(shader, "texture2"), 0);
+	glUniform1i(glGetUniformLocation(shader, "texture1"), 0);
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
