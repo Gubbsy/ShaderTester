@@ -2,6 +2,7 @@
 #include "LoadShaders.h"
 #include <glm\gtc\type_ptr.hpp>
 #include <iostream>
+#include "glm/gtx/string_cast.hpp"
 #include "Util.h"
 #include "ShaderException.h"
 #include "ShaderCompilationEx.h"
@@ -65,6 +66,14 @@ void ShaderManager::ChangeSpecular(glm::vec3 amount)
 {
 	specularLight += amount;
 	SetLighting();
+}
+
+void ShaderManager::PrintCurrentLightingValues()
+{
+	std::cout << BOLDBLUE << "\nCurrent Light Values: " << std::endl;
+	std::cout << BLUE << "Ambient - " << glm::to_string(ambient) << std::endl;
+	std::cout << "Diffuse - " << glm::to_string(diffuseLight) << std::endl;
+	std::cout << "Specular - " << glm::to_string(specularLight) << RESET << std::endl;
 }
 
 GLuint& ShaderManager::getCurrentShader()

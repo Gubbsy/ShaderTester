@@ -171,6 +171,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		ShaderManager::getInstance()->ChangeSpecular(glm::vec3(-0.1f));
 	}
 
+	else if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->PrintCurrentLightingValues();
+	}
+
 	//close program
 	if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		exit(0);
@@ -195,7 +199,7 @@ main(int argc, char** argv)
 	std::cout << "This program is used to test the resulting output of fragment and vertices shaders on a given model." << std::endl;
 	std::cout << "Shaders are and models can be swapped out in runtime, if the inputed shader/model cannot be compiled the comilation error is outputed and the default shader is reverted to." << std::endl;
 	std::cout << BOLDMAGENTA << "\nSee the ReadMe for a list of supported shader properties and their respect types and names";
-	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << RESET << std::endl;
+	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light values \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << RESET << std::endl;
 
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Shaded Cube", NULL, NULL);
