@@ -21,17 +21,31 @@ void ShaderManager::SetModels(glm::mat4 mv, glm::mat4 projection)
 	glUniformMatrix4fv(pLoc, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
-void ShaderManager::MoveLight(float movement)
+void ShaderManager::MoveLightX(float movement)
 {
 	currentLightPos.x = currentLightPos.x + movement;
 
-	//if (currentLightPos.x < -40.0f) {
-	//	currentLightPos.x = -40.f;
-	//}
+	if (currentLightPos.x < -120.0f) {
+		currentLightPos.x = -120.f;
+	}
 
-	//else if (currentLightPos.x > 120.0f) {
-	//	currentLightPos.x = 120.0f;
-	//}
+	else if (currentLightPos.x > 120.0f) {
+		currentLightPos.x = 120.0f;
+	}
+	SetLightPositon();
+}
+
+void ShaderManager::MoveLightY(float movement)
+{
+	currentLightPos.y = currentLightPos.y + movement;
+
+	if (currentLightPos.y < -120.0f) {
+		currentLightPos.y = -120.f;
+	}
+
+	else if (currentLightPos.y > 120.0f) {
+		currentLightPos.y = 120.0f;
+	}
 	SetLightPositon();
 }
 

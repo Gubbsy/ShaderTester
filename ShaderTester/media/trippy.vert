@@ -43,7 +43,7 @@ main()
 
 	vec3 diffuse = max(0.0, dot(N,L)) * dLight;
 
-	fragColour = vColour;
+	fragColour = ambient + vec4(diffuse,1.0) * vColour;
 
 	gl_Position = p_matrix * P;
 	TexCoord = aTexCoord;

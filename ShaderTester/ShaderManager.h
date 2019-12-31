@@ -28,7 +28,8 @@ public:
 	void SwapShader();
 	static ShaderManager* getInstance();
 	void SetModels(glm::mat4 mv, glm::mat4 projection);
-	void MoveLight(float movement);
+	void MoveLightX(float movement);
+	void MoveLightY(float movement);
 	void ChangeAmbient(glm::vec4 amount);
 	void ChangeDiffuse(glm::vec3 amount);
 	void ChangeSpecular(glm::vec3 amount);

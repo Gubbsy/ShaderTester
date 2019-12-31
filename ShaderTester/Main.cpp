@@ -94,11 +94,19 @@ void TakeUserInput() {
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->MoveLight(5.0f);
+		ShaderManager::getInstance()->MoveLightX(-5.0f);
 	}
 
 	else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->MoveLight(-5.0f);
+		ShaderManager::getInstance()->MoveLightX(5.0f);
+	}
+
+	else if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->MoveLightY(5.0f);
+	}
+
+	else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		ShaderManager::getInstance()->MoveLightY(-5.0f);
 	}
 
 	else if (key == GLFW_KEY_Q && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
