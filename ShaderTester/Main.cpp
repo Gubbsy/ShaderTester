@@ -44,7 +44,7 @@ init(void)
 // display
 //
 void
-display(GLfloat delta)
+display()
 {
 	glClearColor(0.24, 0.24, 0.23, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -208,7 +208,6 @@ main(int argc, char** argv)
 
 	init();
 	glfwSetKeyCallback(window, key_callback);
-	GLfloat timer= 0.0f;
 
 	RenderModel("models/creeper/creeper.obj");
 	
@@ -217,10 +216,9 @@ main(int argc, char** argv)
 		// uncomment to draw only wireframe 
 		// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-		display(timer);
+		display();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		timer += 0.1f;
 	}
 
 	glfwDestroyWindow(window);
