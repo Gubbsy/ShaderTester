@@ -19,8 +19,12 @@ private:
 	glm::vec3 diffuseLight;
 	glm::vec3 specularLight;
 
+	float ambMultiplier = 1;
+	float diffMultiplier = 1;
+	float specMultiplier = 1;
+
 	ShaderManager();
-	void SetLighting();
+	void BindLighting();
 	void SetLightPositon();
 	void InitialiseShader(std::string vertShader, std::string fragShader);
 
@@ -30,9 +34,9 @@ public:
 	void SetModels(glm::mat4 mv, glm::mat4 projection);
 	void MoveLightX(float movement);
 	void MoveLightY(float movement);
-	void ChangeAmbient(glm::vec4 amount);
-	void ChangeDiffuse(glm::vec3 amount);
-	void ChangeSpecular(glm::vec3 amount);
+	void ChangeAmbient(float amount);
+	void ChangeDiffuse(float amount);
+	void ChangeSpecular(float amount);
 	void SetMtlLighting(glm::vec3 amb, glm::vec3 diff , glm::vec3 spec);
 	void PrintCurrentLightingValues();
 	GLuint& getCurrentShader();

@@ -6,6 +6,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <iostream>
+#include "Util.h"
 
 
 using namespace std;
@@ -81,7 +82,7 @@ void Mesh::ApplyMtl() {
 	texturePath = folderTree + material.GetMapKD();
 	
 	//Creates texture data from resource
-	if (!exists(texturePath)) {
+	if (!Exists(texturePath)) {
 		texturePath = "./media/textures/DefaultWhite.png";
 	}
 
@@ -98,13 +99,12 @@ void Mesh::ApplyMtl() {
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
-
-	ShaderManager::getInstance()->SetMtlLighting(material.GetAmbient(), material.GetDiffuse(), material.GetSpecular());
 }
 
 void Mesh::Draw() {
 	//Bind current VAO, apply any textures, draw
 	// Query - In the shader program, get me the Uniform location and set it to 0, then feed it into shader
+	ShaderManager::getInstance()->SetMtlLighting(material.GetAmbient(), material.GetDiffuse(), material.GetSpecular());
 	shader = ShaderManager::getInstance()->getCurrentShader();
 	glUniform1i(glGetUniformLocation(shader, "texture1"), 0);
 	glBindVertexArray(VAO);
@@ -118,13 +118,6 @@ void Mesh::Delete()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &indicesEBO);
 	glDeleteVertexArrays(1, &VAO);
-}
-
-//Check if file exists
-bool Mesh::exists(const std::string& name)
-{
-	ifstream f(name.c_str());
-	return f.good();
 }
 
 

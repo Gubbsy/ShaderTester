@@ -58,30 +58,38 @@ display()
 
 void RenderModel(string path) {
 
+	//Create obj reader and model pointer
 	ObjReader* objReader = new ObjReader();
 	Model* mod = nullptr;
 
+	// Read obj file
 	try {
 		mod = objReader->ReadFile(path);
 	}
+	// Catch reading exceptions
 	catch (ObjLoaderEx e) {
 		cerr << RED << "Unable to read obj file: " << e.getFile() << ". The file you entered may be corrupted" << RESET << endl;
 	}
 
+	//Delete previouse model if present
 	if (model != nullptr) {
 		model->Delete();
 	} 
+	// Assign newly read model
 	model = mod;
 }
 
 void TakeUserInput() {
 
+	// Take user input for model path
 	string modelPath;
 	cout << "Enter the relative file path to your model. \n";
 	cin >> modelPath;
 
+	// Get file exstension 
 	string extension = modelPath.substr((modelPath.length()) - 3);
 
+	//Check file exstention
 	if (extension == "obj" && Exists(modelPath)) {
 		RenderModel(modelPath);
 	}
@@ -146,29 +154,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//Alter Lighting Values
 	//Ambient
 	else if (key == GLFW_KEY_Z && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeAmbient(glm::vec4(0.1f, 0.1f, 0.1f, 0.0f));
+		ShaderManager::getInstance()->ChangeAmbient(0.1f);
 	}
 
 	else if (key == GLFW_KEY_X && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeAmbient(glm::vec4(-0.1f, -0.1f, -0.1f, 0.0f));
+		ShaderManager::getInstance()->ChangeAmbient(-0.1f);
 	}
 
 	//Diffuse
 	else if (key == GLFW_KEY_C && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeDiffuse(glm::vec3(0.1f));
+		ShaderManager::getInstance()->ChangeDiffuse(0.1f);
 	}
 
 	else if (key == GLFW_KEY_V && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeDiffuse(glm::vec3(-0.1f));
+		ShaderManager::getInstance()->ChangeDiffuse(-0.1f);
 	}
 
 	//Specular
 	else if (key == GLFW_KEY_B && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeSpecular(glm::vec3(0.1f));
+		ShaderManager::getInstance()->ChangeSpecular(0.1f);
 	}
 
 	else if (key == GLFW_KEY_N && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		ShaderManager::getInstance()->ChangeSpecular(glm::vec3(-0.1f));
+		ShaderManager::getInstance()->ChangeSpecular(-0.1f);
 	}
 
 	else if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
@@ -199,7 +207,7 @@ main(int argc, char** argv)
 	std::cout << "This program is used to test the resulting output of fragment and vertices shaders on a given model." << std::endl;
 	std::cout << "Shaders are and models can be swapped out in runtime, if the inputed shader/model cannot be compiled the comilation error is outputed and the default shader is reverted to." << std::endl;
 	std::cout << BOLDMAGENTA << "\nSee the ReadMe for a list of supported shader properties and their respect types and names";
-	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light values \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << RESET << std::endl;
+	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light multipliers \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << RESET << std::endl;
 
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Shaded Cube", NULL, NULL);
