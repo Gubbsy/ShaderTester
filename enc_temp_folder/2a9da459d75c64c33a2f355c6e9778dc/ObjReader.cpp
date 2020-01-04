@@ -31,6 +31,7 @@ Model* ObjReader::ReadFile(string _file) {
 				if (!line.empty()) {
 					vector<string> token;
 					SplitOnSpace(token, line);
+					cout << "Line :" << line << std::endl;
 
 					//Load in material file and asign it to model
 					if (token[0] == "mtllib") {
