@@ -1,17 +1,12 @@
-## Add
-
-Justification of design choices   
-Phong lighting model explination
-
 # Shader Tester
 An OpenGL 3D program for testing and tuning Vertex and Fragment shader -  
 .obj models and Shaders are both interchangeable during runtime.
 
-The position, ambient, specular and diffuse values for lighting can be adjusted dynamically to observe shader behaviour, while also providing the ability to manipulating the model's scale and rotation.
+The Shader Tester is based upon the *Phong* lighting model. The position, ambient, specular and diffuse values for lighting can be adjusted dynamically to observe shader behaviour, while also providing the ability to manipulating the model's scale and rotation.
 
 This program was created as a result of personal experiences troubleshooting and tuning custom shaders. It can be troublesome and laborious to develop shaders due to the inability to debug shader files directly and the limited feedback given from errors in runtime, it also came about due to the necessity to observe shader behaviour under variable conditions such as model position and lighting values. This Shader Tester application aims to overcome these hurdles.
 
-There are multiple online WebGL shader editor (i.e. [Shader Frog](https://shaderfrog.com/app/editor "Shader Frog"), [The Book of Shaders](https://thebookofshaders.com/edit.php "The Boo of Shaders"), [Shader Toy](https://www.shadertoy.com "Shader Toy") ). However, the Shader Tester is unique in its ability to load custom models and dynamically change light variables external to the shader program. *Shader Frog* is an exception to this, as it provides an versatile Online IDE for shader development, with the ability to change the light source position, however it still lacks the ability to change specular, ambient and diffuse values provided by OpenGL, as well as load custom models.
+There are multiple online WebGL shader editor (i.e. [Shader Frog](https://shaderfrog.com/app/editor "Shader Frog"), [The Book of Shaders](https://thebookofshaders.com/edit.php "The Boo of Shaders"), [Shader Toy](https://www.shadertoy.com "Shader Toy") ). However, the Shader Tester is unique in its ability to load custom models and dynamically change light variables external to the shader program. *Shader Frog* is an exception to this, as it provides a versatile Online IDE for shader development, with the ability to change the light source position, however it still lacks the ability to change specular, ambient and diffuse values provided by OpenGL, as well as load custom models.
 
 The project builds upon a previous *Model Loader* code base, with improvement made to error handling, implementing the prior .obj reader and Model architecture.
 

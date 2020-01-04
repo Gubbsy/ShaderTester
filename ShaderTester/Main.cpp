@@ -86,15 +86,12 @@ void TakeUserInput() {
 	cout << "Enter the relative file path to your model. \n";
 	cin >> modelPath;
 
-	// Get file exstension 
-	string extension = modelPath.substr((modelPath.length()) - 3);
-
 	//Check file exstention
-	if (extension == "obj" && Exists(modelPath)) {
+	if (modelPath.length() > 3 && modelPath.substr((modelPath.length()) - 3) == "obj" && Exists(modelPath)) {
 		RenderModel(modelPath);
 	}
 	else {
-		std::cout << RED << "File is unsupprted is unsupported or cannot be found" << RESET << endl;
+		std::cout << "\n" << RED << "File is unsupprted or cannot be found" << RESET << endl;
 	}
 }
 
