@@ -1,3 +1,8 @@
+## Add
+
+Justification of design choices   
+Phong lighting model explination
+
 # Shader Tester
 An OpenGL 3D program for testing and tuning Vertex and Fragment shader -  
 .obj models and Shaders are both interchangeable during runtime.
@@ -110,15 +115,6 @@ This model assigned to the main **Model** variable within the program, who's **D
 * Handles user input.
 * Contains the main display loop & logic
 
-
-#### Readers
-* Parse file extracting Vertex data: normals, vertices, colours, indices, materials and construct a model.
-
-  **OBJ**
-  * Construct a new Object upon reaching a new object identifier 'o'.
-  * Construct a new Mesh upon reaching a use material identifier 'usemtl'.
-  * All meshes are added to their respective object, with objects then being added to the model.
-
 #### Shader manager
 * Create shader using Shader Loader.
 * Pass shader into Shader Program.
@@ -128,6 +124,12 @@ This model assigned to the main **Model** variable within the program, who's **D
 
 ##### Shader Loader
 * Loads shader files and creates a shader.
+
+#### OBJ Reader
+* Parse file extracting Vertex data: normals, vertices, colours, indices, materials and construct a model.
+  * Construct a new Object upon reaching a new object identifier 'o'.
+  * Construct a new Mesh upon reaching a use material identifier 'usemtl'.
+  * All meshes are added to their respective object, with objects then being added to the model.
 
 #### Model  
 * Holds a vector of objects that compose a model

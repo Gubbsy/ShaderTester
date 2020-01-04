@@ -64,7 +64,7 @@ void Model::Draw()
 
 	// for every object in model call draw method
 	for (int i = 0; i < objects.size(); i++) {
-		objects[i].Draw(ShaderManager::getInstance()->getCurrentShader());
+		objects[i].Draw();
 	}
 }
 

@@ -9,7 +9,7 @@ private:
 
 public:
 	void AddMesh(Mesh& _mesh);
-	void Draw(GLuint& shader);
+	void Draw();
 	void Delete();
 };
 

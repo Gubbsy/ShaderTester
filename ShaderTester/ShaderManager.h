@@ -33,6 +33,7 @@ public:
 	void ChangeAmbient(glm::vec4 amount);
 	void ChangeDiffuse(glm::vec3 amount);
 	void ChangeSpecular(glm::vec3 amount);
+	void SetMtlLighting(glm::vec3 amb, glm::vec3 diff , glm::vec3 spec);
 	void PrintCurrentLightingValues();
 	GLuint& getCurrentShader();
 };

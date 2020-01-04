@@ -12,26 +12,28 @@ class Material
 
 private:
 	string materialName;
-	vec3 ambientCol;
-	vec3 diffuseCol;
-	vec3 specularCol;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
 	GLfloat specularWeight;
-	GLfloat diffuse;
+	GLfloat dissolve;
 	string mapKD;
 	string mapD;
 	
 public:
 	void SetName(string _matrialName);
-	void SetAmbientCol(vec3 _ambientColor);
-	void setDiffuseCol(vec3 _diffuseCol);
-	void SetSpecularCol(vec3 _specularCol);
-	void SetSpecularWeight(GLfloat _specularWeight);
-	void SetDifuse(GLfloat _diffuse);
+	void SetAmbient(vec3 _ambient);
+	void setDiffuse(vec3 _diffuse);
+	void SetSpecular(vec3 _specular);
+	void SetSpecular(GLfloat _specularWeight);
+	void SetDissolve(GLfloat _disolve);
 	void SetMapKD(string _mapKD);
 	void SetMapD(string _mapD);
 	
 	string& GetMapD();
 	string& GetMapKD();
-	vec3 GetDiffuseCol();
+	vec3& GetDiffuse();
+	vec3& GetAmbient();
+	vec3& GetSpecular();
 };
 

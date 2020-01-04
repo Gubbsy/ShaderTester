@@ -22,7 +22,7 @@ void Mesh::Init(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, M
 	material = _material;
 	folderTree = _folderTree;
 
-	ApplyTexture();
+	ApplyMtl();
 	BindVertices();
 	BindIndices();
 	PassToShader();
@@ -59,7 +59,7 @@ void Mesh::BindIndices() {
 }
 
 
-void Mesh::ApplyTexture() {
+void Mesh::ApplyMtl() {
 	//Generate Texture
 	glGenTextures(1, &texture1);
 	//Bind generated textures as type
@@ -99,6 +99,7 @@ void Mesh::ApplyTexture() {
 	}
 	stbi_image_free(data);
 
+	ShaderManager::getInstance()->SetMtlLighting(material.GetAmbient(), material.GetDiffuse(), material.GetSpecular());
 }
 
 void Mesh::Draw() {

@@ -30,7 +30,7 @@ private:
 
 	void BindIndices();
 	void BindVertices();
-	void ApplyTexture();
+	void ApplyMtl();
 
 public: 
 	void Init(std::vector<Vertex>& _vertexes, std::vector<GLuint>& _indices, Material& _material, string& _fileTree);

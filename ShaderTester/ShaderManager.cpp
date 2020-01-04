@@ -68,6 +68,14 @@ void ShaderManager::ChangeSpecular(glm::vec3 amount)
 	SetLighting();
 }
 
+void ShaderManager::SetMtlLighting(glm::vec3 amb, glm::vec3 diff, glm::vec3 spec)
+{
+	ambient = glm::vec4(amb, 1.0f);
+	diffuseLight = diff;
+	specularLight = spec;
+	SetLighting();
+}
+
 void ShaderManager::PrintCurrentLightingValues()
 {
 	std::cout << BOLDBLUE << "\nCurrent Light Values: " << std::endl;
@@ -79,7 +87,6 @@ void ShaderManager::PrintCurrentLightingValues()
 GLuint& ShaderManager::getCurrentShader()
 {
 	return shader;
-	SetLighting();
 }
 
 void ShaderManager::SetLighting()

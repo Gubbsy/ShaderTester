@@ -92,7 +92,7 @@ Model* ObjReader::ReadFile(string _file) {
 						vec3 temp_pos = vec3(0.0f);
 						vec2 temp_tex = vec2(0.0f);
 						vec3 temp_norm = vec3(0.0f);
-						vec4 temp_col = vec4(currentMaterial.GetDiffuseCol(), 0.1f);
+						vec4 temp_col = vec4(currentMaterial.GetDiffuse(), 0.1f);
 
 						//for every face
 						while (getline(faceIss, faceLine, '/')) {
@@ -216,23 +216,23 @@ void ObjReader::LoadMaterials() {
 				}
 				// Pull relevant data using identifiers
 				if (token[0] == "Ns") {
-					materialsMap[curerntMtl].SetSpecularWeight(stof(token[1]));
+					materialsMap[curerntMtl].SetSpecular(stof(token[1]));
 				}
 
 				if (token[0] == "Ka") {
-					materialsMap[curerntMtl].SetAmbientCol(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
+					materialsMap[curerntMtl].SetAmbient(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
 				}
 
 				if (token[0] == "Kd") {
-					materialsMap[curerntMtl].setDiffuseCol(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
+					materialsMap[curerntMtl].setDiffuse(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
 				}
 
-				if (token[0] == "Ka") {
-					materialsMap[curerntMtl].SetSpecularCol(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
+				if (token[0] == "Ks") {
+					materialsMap[curerntMtl].SetSpecular(vec3(stof(token[1]), stof(token[2]), stof(token[3])));
 				}
 
 				if (token[0] == "d") {
-					materialsMap[curerntMtl].SetDifuse(stof(token[1]));
+					materialsMap[curerntMtl].SetDissolve(stof(token[1]));
 				}
 
 				if (token[0] == "map_Kd") {
