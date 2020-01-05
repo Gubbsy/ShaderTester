@@ -2,6 +2,8 @@
 An OpenGL 3D program for testing and tuning Vertex and Fragment shaders.  
 .obj models and Shaders are both interchangeable during runtime.
 
+Walkthrough Link: https://drive.google.com/file/d/1lpwyL5mpVVR1j5a3R8Eo7v8pwuSIwBE6/view?usp=sharing
+
 The Shader Tester is based upon the *Phong* lighting model. The position, ambient, specular and diffuse values for lighting can be adjusted dynamically to observe shader behaviour, while also providing the ability to manipulating the model's scale and rotation.
 
 This program was created as a result of personal experiences troubleshooting and tuning custom shaders. It can be troublesome and laborious to develop shaders due to the inability to debug shader files directly and the limited feedback given from errors in runtime (due to the inability to set breakpoints and watch values). It also came about as of necessity to observe shader behaviour under variable conditions such as model position and lighting values. This Shader Tester application aims to overcome these hurdles.

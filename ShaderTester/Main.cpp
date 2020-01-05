@@ -214,7 +214,7 @@ main(int argc, char** argv)
 	SetColour(8);
 	std::cout << "\nSee the ReadMe for a list of supported shader properties and their respect types and names";
 	SetColour(6);
-	std::cout << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light multipliers \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << std::endl;
+	std::cout << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light multipliers \n ~ W/A/S/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << std::endl;
 
 	SetColour(7);
 
