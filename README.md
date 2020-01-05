@@ -96,7 +96,7 @@ Q ~ Prompt shader loading.
 ESC ~ Close program.
 
 #### Light Manipulation  
-A / D - Move light source  
+W / A / S / D - Move light source  
 Z / X - Increase & Decrease Ambient Light Value  
 C / V - Increase & Decrease Diffuse Light Value  
 P - Print current light values
