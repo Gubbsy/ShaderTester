@@ -68,7 +68,9 @@ void RenderModel(string path) {
 	}
 	// Catch reading exceptions
 	catch (ObjLoaderEx e) {
-		cerr << RED << "Unable to read obj file: " << e.getFile() << ". The file you entered may be corrupted" << RESET << endl;
+		SetColour(4);
+		cerr << "Unable to read obj file: " << e.getFile() << ". The file you entered may be corrupted" << endl;
+		SetColour(7);
 	}
 
 	//Delete previouse model if present
@@ -91,7 +93,9 @@ void TakeUserInput() {
 		RenderModel(modelPath);
 	}
 	else {
-		std::cout << "\n" << RED << "File is unsupprted or cannot be found" << RESET << endl;
+		SetColour(4);
+		std::cout << "\n" << "File is unsupprted or cannot be found" << endl;
+		SetColour(7);
 	}
 }
 
@@ -186,6 +190,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
+
+
 //----------------------------------------------------------------------------
 //
 // main
@@ -193,18 +199,24 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 int
 main(int argc, char** argv)
 {
-	std::cout << CYAN << "================================================================" << std::endl;
+	SetColour(1);
+	std::cout  << "================================================================" << std::endl;
 	std::cout << " ____  _               _             _____         _            "<< std::endl;
 	std::cout << "/ ___|| |__   __ _  __| | ___ _ __  |_   _|__  ___| |_ ___ _ __" << std::endl;
 	std::cout << "\\___ \\| ' _\\ / _` |/ _` |/ _ \\ '__|   | |/ _ \\/ __| __/ _ \\ '__|" << std::endl;
 	std::cout << " ___) | | | | (_| | (_| |  __/ |      | |  __/\\__ \\ ||  __/ |   " << std::endl;
 	std::cout << "|____/|_| |_|\\__,_|\\__,_|\\___|_|      |_|\\___||___/\\__\\___|_|" << std::endl;
-	std::cout << "================================================================" << RESET << std::endl;
+	std::cout << "================================================================" << std::endl;
 
+	SetColour(15);
 	std::cout << "This program is used to test the resulting output of fragment and vertices shaders on a given model." << std::endl;
 	std::cout << "Shaders are and models can be swapped out in runtime, if the inputed shader/model cannot be compiled the comilation error is outputed and the default shader is reverted to." << std::endl;
-	std::cout << BOLDMAGENTA << "\nSee the ReadMe for a list of supported shader properties and their respect types and names";
-	std::cout << YELLOW << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light multipliers \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << RESET << std::endl;
+	SetColour(8);
+	std::cout << "\nSee the ReadMe for a list of supported shader properties and their respect types and names";
+	SetColour(6);
+	std::cout << "\n\nControlls: \n ~ Q - Prompt console for shader file path input \n ~ E - Prompt console for model file path input \n ~ P - Print current light multipliers \n ~ A/D - Move light source \n ~ Z/X - Increase & Decrease Ambient Light Value \n ~ C/V - Increase & Decrease Diffuse Light Value \n ~ B/N - Increase & Decrease Specular Light Value" << std::endl;
+
+	SetColour(7);
 
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Shaded Cube", NULL, NULL);

@@ -29,7 +29,9 @@ extern "C" {
 
 		if (!infile) {
 #ifdef _DEBUG
-			std::cerr << RED << "Unable to open file '" << filename << "'" << RESET << std::endl;
+			SetColour(4);
+			std::cerr  << "Unable to open file '" << filename << "'" << std::endl;
+			SetColour(7);
 #endif /* DEBUG */
 			return NULL;
 		}
@@ -87,7 +89,9 @@ extern "C" {
 
 				GLchar* log = new GLchar[len + 1];
 				glGetShaderInfoLog(shader, len, &len, log);
-				std::cerr << RED << "\nShader compilation failed: " << RESET << std::endl;
+				SetColour(4);
+				std::cerr << "\nShader compilation failed: " << std::endl;
+				SetColour(7);
 				throw ShaderCompilationEx(log);
 				delete[] log;
 #endif /* DEBUG */
@@ -111,7 +115,9 @@ extern "C" {
 
 			GLchar* log = new GLchar[len + 1];
 			glGetProgramInfoLog(program, len, &len, log);
-			std::cerr << RED << "Shader linking failed: " << RESET << std::endl;
+			SetColour(4);
+			std::cerr  << "Shader linking failed: " << std::endl;
+			SetColour(7);
 			throw ShaderCompilationEx(log);
 			delete[] log;
 #endif /* DEBUG */

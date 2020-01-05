@@ -91,11 +91,13 @@ void ShaderManager::SetMtlLighting(glm::vec3 amb, glm::vec3 diff, glm::vec3 spec
 
 void ShaderManager::PrintCurrentLightingValues()
 {
-	std::cout << BOLDBLUE << "\nCurrent Light Multipliers: " << std::endl;
-	std::cout << BOLDBLUE << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-	std::cout << BLUE << "Ambient  - " << ambMultiplier << std::endl;
+	SetColour(1);
+	std::cout << "\nCurrent Light Multipliers: " << std::endl;
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+	std::cout << "Ambient  - " << ambMultiplier << std::endl;
 	std::cout << "Diffuse  - " << diffMultiplier << std::endl;
-	std::cout << "Specular - " << specMultiplier << RESET << std::endl;
+	std::cout << "Specular - " << specMultiplier << std::endl;
+	SetColour(7);
 }
 
 GLuint& ShaderManager::getCurrentShader()
@@ -147,17 +149,24 @@ void ShaderManager::InitialiseShader(std::string vertShader, std::string fragSha
 		shader = LoadShaders(shaders);
 		glUseProgram(shader);
 
-		std::cout << BOLDGREEN << "\nShader Compiled!" << RESET << std::endl;
+		SetColour(10);
+		std::cout << "\nShader Compiled!" << std::endl;
+		SetColour(7);
 	}
 	//Catch errors when loading shader and revert to default
 	catch (ShaderCompilationEx& e) {
-		std::cout << RED << e.getMsg() << "Reverted to default shader" << RESET << std::endl;
+		SetColour(4);
+		std::cout << e.getMsg() << "Reverted to default shader" << std::endl;
+		SetColour(7);
 		InitialiseShader("media/default.vert", "media/default.frag");
 	}
 	// Bind lighting for new shader
 	BindLighting();
 	// Bind light postion for new shader
 	SetLightPositon();
+	ambMultiplier = 1;
+	specMultiplier = 1;
+	diffMultiplier = 1;
 }
 
 void ShaderManager::SwapShader()
@@ -168,18 +177,24 @@ void ShaderManager::SwapShader()
 	std::string vertShader;
 	std::string fragShader;
 
-	std::cout << BOLDGREEN << "\nShader Slection: " << std::endl;
-	std::cout << BOLDGREEN << "---------------- " << RESET << std::endl;
+	SetColour(10);
+	std::cout << "\nShader Slection: " << std::endl;
+	std::cout << "---------------- " << std::endl;
+	
 
 	// Take user input for vert file path of shader
 	while (!vertExists) {
-		std::cout << GREEN<< "Please enter a valid vertext shader file path" << RESET << std::endl;
+		SetColour(10);
+		std::cout << "Please enter a valid vertext shader file path" << std::endl;
+		SetColour(7);
 		std::cin >> vertShader;
 		vertExists = Exists(vertShader);
 	}
 	// Take user input for frag file path of shader
 	while (!fragExists) {
-		std::cout << GREEN << "Please enter a fragment shader file path" << RESET << std::endl;
+		SetColour(10);
+		std::cout << "Please enter a fragment shader file path" << std::endl;
+		SetColour(7);
 		std::cin >> fragShader;
 		fragExists = Exists(fragShader);
 	}

@@ -7,6 +7,7 @@
 #include "stb_image.h"
 #include <iostream>
 #include "Util.h"
+#include "ConsolecColours.h"
 
 
 using namespace std;
@@ -96,7 +97,9 @@ void Mesh::ApplyMtl() {
 	}
 	else
 	{
+		SetColour(4);
 		std::cout << "Failed to load texture" << std::endl;
+		SetColour(7);
 	}
 	stbi_image_free(data);
 }
